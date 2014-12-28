@@ -21,7 +21,7 @@ import java.util.Set;
 @CommandMeta(description = "Lists nearby players")
 public final class NearCommand extends ModuleCommand {
     public NearCommand() {
-        super("naer");
+        super("near");
     }
 
     @Override
@@ -29,17 +29,22 @@ public final class NearCommand extends ModuleCommand {
         BiMap<CPlayer, Double> distances = HashBiMap.create();
         Point point = player.getPoint();
         for (CPlayer cPlayer : Core.getPlayerManager()) {
+            if (cPlayer.hasPermission("vexus.near.hide") && !player.hasPermission("vexus.near.showall")) continue;
             Double aDouble = cPlayer.getPoint().distanceSquared(point);
             if (aDouble < 2500) distances.put(cPlayer, Math.sqrt(aDouble));
+        }
+
+        player.sendMessage(VexusCore.getInstance().getFormat("near-head"));
+        if (distances.size() == 0) {
+            player.sendMessage(VexusCore.getInstance().getFormat("near-none"));
+            return;
         }
 
         Set<CPlayer> cPlayers = distances.keySet();
         CPlayer[] cPlayers1 = cPlayers.toArray(new CPlayer[cPlayers.size()]);
         Arrays.sort(cPlayers1, new DistanceInvertedComparator(distances));
 
-        player.sendMessage(VexusCore.getInstance().getFormat("near-head"));
         for (CPlayer cPlayer : cPlayers1) {
-            if (cPlayer.hasPermission("vexus.near.hide")) continue;
             player.sendMessage(VexusCore.getInstance().getFormat("near-line", new String[]{"<distance>", String.format("%.02f", distances.get(cPlayer))}, new String[]{"<name>", cPlayer.getDisplayName()}));
         }
 
