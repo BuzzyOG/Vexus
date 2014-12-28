@@ -29,6 +29,7 @@ public final class NearCommand extends ModuleCommand {
         BiMap<CPlayer, Double> distances = HashBiMap.create();
         Point point = player.getPoint();
         for (CPlayer cPlayer : Core.getPlayerManager()) {
+            if (cPlayer.equals(player)) continue;
             if (cPlayer.hasPermission("vexus.near.hide") && !player.hasPermission("vexus.near.showall")) continue;
             Double aDouble = cPlayer.getPoint().distanceSquared(point);
             if (aDouble < 2500) distances.put(cPlayer, Math.sqrt(aDouble));
