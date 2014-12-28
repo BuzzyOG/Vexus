@@ -13,6 +13,8 @@ tpa-accepted: "&7Your teleport request has been &aaccepted"
 teleport-wait: "&7Stay still! Teleporting you in &a<remain> &7seconds."
 teleport-cancel: "&7You moved too much! Cancelling teleport!"
 flight-changed: "&7You have &a<state> <player>&7's flight"
+gamemode-invalid: "&7That is an invalid gamemode"
+gamemode-change: "&7You have changed &a<player>&7's gamemode to &a<gamemode>&7 mode!"
 conf:
   question: "&7<prompt>"
   allow: "&7Type &a/yes&7 to confirm"
