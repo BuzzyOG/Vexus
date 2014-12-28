@@ -1,12 +1,12 @@
 package pw.vexus.core;
 
 import lombok.Getter;
+import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.ModularPlugin;
 import net.cogzmc.core.modular.ModuleMeta;
-import pw.vexus.core.commands.Confirmer;
-import pw.vexus.core.commands.SpawnCommand;
-import pw.vexus.core.commands.TpaCommand;
-import pw.vexus.core.commands.TpahereCommand;
+import net.cogzmc.core.player.CPlayer;
+import org.bukkit.entity.Player;
+import pw.vexus.core.commands.*;
 import pw.vexus.core.econ.EconomyManager;
 import pw.vexus.core.econ.command.BalanceCommand;
 import pw.vexus.core.econ.command.EconCommand;
@@ -31,6 +31,8 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new SpawnCommand());
         registerCommand(new TpaCommand());
         registerCommand(new TpahereCommand());
+        registerCommand(new FlyCommand());
+
 
         new Confirmer.ConfirmerDriver();
     }

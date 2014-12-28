@@ -12,6 +12,7 @@ tpa-deny: "&7You have &cdenied&7 your teleport request"
 tpa-accepted: "&7Your teleport request has been &aaccepted"
 teleport-wait: "&7Stay still! Teleporting you in &a<remain> &7seconds."
 teleport-cancel: "&7You moved too much! Cancelling teleport!"
+flight-changed: "&7You have &a<state> <player>&7's flight"
 conf:
   question: "&7<prompt>"
   allow: "&7Type &a/yes&7 to confirm"
