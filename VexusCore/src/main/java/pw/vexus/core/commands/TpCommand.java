@@ -7,10 +7,10 @@ import pw.vexus.core.TeleMan;
 import pw.vexus.core.VexusCore;
 
 @CommandPermission("vexus.tp")
-@CommandMeta(aliases = {"teleport"}, description = "Teleport to a player or teleport a player to another player")
+@CommandMeta(aliases = {"tp", "teleport"}, description = "Teleport to a player or teleport a player to another player")
 public final class TpCommand extends ModuleCommand {
     public TpCommand() {
-        super("tp");
+        super("vexus:teleport");
     }
 
     @Override
