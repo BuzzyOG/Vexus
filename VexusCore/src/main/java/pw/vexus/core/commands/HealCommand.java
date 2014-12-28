@@ -24,7 +24,7 @@ public class HealCommand extends ModuleCommand {
 
         if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");
         Player tPlayer = target.getBukkitPlayer();
-        tPlayer.setMaxHealth(tPlayer.getMaxHealth());
+        tPlayer.setHealth(tPlayer.getMaxHealth());
         tPlayer.setFoodLevel(20);
         player.sendMessage(VexusCore.getInstance().getFormat("player-healed", new String[]{"<player>", target.getName()}));
     }
