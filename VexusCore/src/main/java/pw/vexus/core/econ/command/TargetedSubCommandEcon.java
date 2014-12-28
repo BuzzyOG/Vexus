@@ -3,11 +3,11 @@ package pw.vexus.core.econ.command;
 import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.ArgumentRequirementException;
 import net.cogzmc.core.modular.command.CommandException;
-import net.cogzmc.core.modular.command.ModuleCommand;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.command.CommandSender;
+import pw.vexus.core.VexusCommand;
 
-abstract class TargetedSubCommandEcon extends ModuleCommand {
+abstract class TargetedSubCommandEcon extends VexusCommand {
     protected TargetedSubCommandEcon(String name) {
         super(name);
     }

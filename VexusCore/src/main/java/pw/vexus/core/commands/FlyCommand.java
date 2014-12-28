@@ -4,11 +4,12 @@ import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.*;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.entity.Player;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
 @CommandMeta(aliases = {"flight"}, description = "Activate flight for yourself or the targeted player")
 @CommandPermission("vexus.fly")
-public final class FlyCommand extends ModuleCommand {
+public final class FlyCommand extends VexusCommand {
     public FlyCommand() {
         super("fly");
     }

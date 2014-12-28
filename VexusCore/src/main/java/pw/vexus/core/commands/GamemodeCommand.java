@@ -5,11 +5,12 @@ import net.cogzmc.core.modular.command.*;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
 @CommandMeta(aliases = {"gm"}, description = "Change the gamemode of yourself or the targeted player.")
 @CommandPermission("vexus.gamemode")
-public final class GamemodeCommand extends ModuleCommand {
+public final class GamemodeCommand extends VexusCommand {
 
     public GamemodeCommand() {
         super("gamemode");

@@ -4,17 +4,17 @@ import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.*;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.entity.Player;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
 @CommandMeta(description = "Heal yourself or the target player.")
 @CommandPermission("vexus.heal")
-public class HealCommand extends ModuleCommand {
-
+public final class HealCommand extends VexusCommand {
     public HealCommand() {
         super("heal");
     }
 
-    // Needs cooldown!
+    //TODO Needs cooldown!
 
     @Override
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {

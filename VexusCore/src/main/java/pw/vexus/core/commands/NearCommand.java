@@ -7,9 +7,9 @@ import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.CommandException;
 import net.cogzmc.core.modular.command.CommandMeta;
 import net.cogzmc.core.modular.command.CommandPermission;
-import net.cogzmc.core.modular.command.ModuleCommand;
 import net.cogzmc.core.player.CPlayer;
 import net.cogzmc.core.util.Point;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import java.util.Set;
 
 @CommandPermission("vexus.near")
 @CommandMeta(description = "Lists nearby players")
-public final class NearCommand extends ModuleCommand {
+public final class NearCommand extends VexusCommand {
     public NearCommand() {
         super("near");
     }

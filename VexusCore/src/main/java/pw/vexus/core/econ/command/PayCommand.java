@@ -5,12 +5,13 @@ import net.cogzmc.core.modular.command.*;
 import net.cogzmc.core.player.CPlayer;
 import net.cogzmc.core.player.DatabaseConnectException;
 import org.bukkit.Sound;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 import pw.vexus.core.econ.EconomyManager;
 
 @CommandMeta(description = "Used to send funds to players!", aliases = {"send"})
 @CommandPermission("vexus.econ.pay")
-public final class PayCommand extends ModuleCommand {
+public final class PayCommand extends VexusCommand {
     public PayCommand() {
         super("pay");
     }

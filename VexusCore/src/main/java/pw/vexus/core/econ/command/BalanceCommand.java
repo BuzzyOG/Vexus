@@ -5,12 +5,13 @@ import net.cogzmc.core.modular.command.*;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 import pw.vexus.core.econ.EconomyManager;
 
 @CommandMeta(description = "Check your balance or the balance of another user!", aliases = {"money", "bal", "b"}, usage = "/bal [target]")
 @CommandPermission("vexus.econ.balance")
-public final class BalanceCommand extends ModuleCommand {
+public final class BalanceCommand extends VexusCommand {
     public BalanceCommand() {
         super("balance");
     }

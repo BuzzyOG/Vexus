@@ -4,11 +4,12 @@ import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.*;
 import net.cogzmc.core.player.CPlayer;
 import pw.vexus.core.TeleMan;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
 @CommandPermission("vexus.tp")
 @CommandMeta(aliases = {"tp", "teleport"}, description = "Teleport to a player or teleport a player to another player")
-public final class TpCommand extends ModuleCommand {
+public final class TpCommand extends VexusCommand {
     public TpCommand() {
         super("vexus:teleport");
     }

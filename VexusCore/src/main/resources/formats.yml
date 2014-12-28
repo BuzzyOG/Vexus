@@ -18,6 +18,7 @@ near-head: "&7Players who are nearby:"
 near-line: "  &a<name> &7-&a <distance> blocks"
 near-none: "  &7There are no players nearby"
 player-healed: "&7You have healed &a<player>&7."
+error: "&c<error>"
 conf:
   question: "&7<prompt>"
   allow: "&7Type &a/yes&7 to confirm"

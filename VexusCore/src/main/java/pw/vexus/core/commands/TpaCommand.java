@@ -3,12 +3,12 @@ package pw.vexus.core.commands;
 import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.ArgumentRequirementException;
 import net.cogzmc.core.modular.command.CommandException;
-import net.cogzmc.core.modular.command.ModuleCommand;
 import net.cogzmc.core.player.CPlayer;
 import pw.vexus.core.TeleMan;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
-public final class TpaCommand extends ModuleCommand {
+public final class TpaCommand extends VexusCommand {
     public TpaCommand() {
         super("tpa");
     }
