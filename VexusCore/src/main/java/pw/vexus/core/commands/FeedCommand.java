@@ -20,7 +20,7 @@ public class FeedCommand extends VexusCommand {
     @Override
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
         CPlayer target;
-        if (args.length > 0) target = player;
+        if (args.length == 0) target = player;
         else target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[0]);
 
         if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");
