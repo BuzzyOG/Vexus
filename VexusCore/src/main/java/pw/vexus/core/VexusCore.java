@@ -34,6 +34,8 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new GamemodeCommand());
         registerCommand(new HealCommand());
 
+        registerCommand(new TpCommand());
+
 
         new Confirmer.ConfirmerDriver();
     }

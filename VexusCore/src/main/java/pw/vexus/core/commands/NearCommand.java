@@ -32,6 +32,7 @@ public final class NearCommand extends ModuleCommand {
             if (cPlayer.equals(player)) continue;
             if (cPlayer.hasPermission("vexus.near.hide") && !player.hasPermission("vexus.near.showall")) continue;
             Double aDouble = cPlayer.getPoint().distanceSquared(point);
+            //  d^2     < 50^2
             if (aDouble < 2500) distances.put(cPlayer, Math.sqrt(aDouble));
         }
 

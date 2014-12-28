@@ -8,7 +8,7 @@ import net.cogzmc.core.player.CPlayer;
 import pw.vexus.core.TeleMan;
 import pw.vexus.core.VexusCore;
 
-public class TpahereCommand extends ModuleCommand {
+public final class TpahereCommand extends ModuleCommand {
     public TpahereCommand() {
         super("tpahere");
     }
