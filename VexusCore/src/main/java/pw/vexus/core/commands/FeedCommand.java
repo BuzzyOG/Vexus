@@ -3,12 +3,14 @@ package pw.vexus.core.commands;
 import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.ArgumentRequirementException;
 import net.cogzmc.core.modular.command.CommandException;
+import net.cogzmc.core.modular.command.CommandMeta;
 import net.cogzmc.core.modular.command.CommandPermission;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.entity.Player;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
+@CommandMeta(description = "Feed yourself or the target player.")
 @CommandPermission(value = "vexus.feed", isOpExempt = true)
 public class FeedCommand extends VexusCommand {
     public FeedCommand() {
