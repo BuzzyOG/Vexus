@@ -1,0 +1,5 @@
+default-econ-balance: 100
+teleport-wait-time: 10
+teleportPermissions: #Give people the permission vexus.teletime.{name}
+  pro: 5 #vexus.teletime.pro
+  mod: 2 #vexus.teletime.mod etc

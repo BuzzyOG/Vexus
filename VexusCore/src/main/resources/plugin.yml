@@ -1,0 +1,5 @@
+name: VexusCore
+version: 1.0
+authors: [Twister915]
+depend: [Core]
+main: pw.vexus.core.VexusCore
