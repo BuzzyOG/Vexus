@@ -7,7 +7,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import pw.vexus.core.VexusCore;
 
-@CommandMeta(aliases = "gm", description = "Change the gamemode of yourself or the targeted player.")
+@CommandMeta(aliases = {"gm"}, description = "Change the gamemode of yourself or the targeted player.")
 @CommandPermission("vexus.gamemode")
 public class GamemodeCommand extends ModuleCommand {
 
@@ -18,17 +18,24 @@ public class GamemodeCommand extends ModuleCommand {
     @Override
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
         CPlayer target;
-        int mode = Integer.parseInt(args[0]);
+        if (args.length == 0) throw new ArgumentRequirementException("You did not specify a gamemode!");
+
+        Integer mode;
+        try {
+            mode = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            throw new ArgumentRequirementException("Unknown gamemode!");
+        }
+
+        if (!(mode >= 0 && mode <= 2)) throw new ArgumentRequirementException("Unknown gamemode!");
+
         if (args.length == 1) target = player;
         else target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[1]);
 
         if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");
 
         Player tPlayer = target.getBukkitPlayer();
-        if (mode == 0) tPlayer.setGameMode(GameMode.SURVIVAL);
-        else if (mode == 1) tPlayer.setGameMode(GameMode.CREATIVE);
-        else if (mode == 2) tPlayer.setGameMode(GameMode.ADVENTURE);
-        else player.sendMessage(VexusCore.getInstance().getFormat("gamemode-invalid"));
+        tPlayer.setGameMode(GameMode.values()[mode]);
 
         player.sendMessage(VexusCore.getInstance().getFormat("gamemode-change", new String[]{"<gamemode>", tPlayer.getGameMode().name().toLowerCase()}, new String[]{"<player>", target.getName()}));
     }

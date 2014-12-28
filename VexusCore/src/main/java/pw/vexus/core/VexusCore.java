@@ -1,11 +1,8 @@
 package pw.vexus.core;
 
 import lombok.Getter;
-import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.ModularPlugin;
 import net.cogzmc.core.modular.ModuleMeta;
-import net.cogzmc.core.player.CPlayer;
-import org.bukkit.entity.Player;
 import pw.vexus.core.commands.*;
 import pw.vexus.core.econ.EconomyManager;
 import pw.vexus.core.econ.command.BalanceCommand;
