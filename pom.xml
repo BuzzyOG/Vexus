@@ -8,7 +8,7 @@
     <artifactId>Vexus</artifactId>
     <groupId>pw.vexus.dev</groupId>
     <version>1.0-SNAPSHOT</version>
-    
+
     <packaging>pom</packaging>
     <modules>
         <module>VexusFactions</module>
