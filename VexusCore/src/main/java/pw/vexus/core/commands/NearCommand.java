@@ -58,7 +58,7 @@ public final class NearCommand extends VexusCommand {
 
         @Override
         public int compare(CPlayer o1, CPlayer o2) {
-            return data.get(o2) > data.get(o1) ? 1 : -1;
+            return data.get(o2) > data.get(o1) ? -1 : 1;
         }
     }
 }
