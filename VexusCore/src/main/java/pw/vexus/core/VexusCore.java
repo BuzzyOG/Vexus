@@ -14,7 +14,6 @@ public final class VexusCore extends ModularPlugin {
     @Getter private static VexusCore instance;
 
     @Getter private EconomyManager economyManager;
-    @Getter private DataJSONFile dataJSONFile;
 
     @Override
     protected void onModuleEnable() throws Exception {
