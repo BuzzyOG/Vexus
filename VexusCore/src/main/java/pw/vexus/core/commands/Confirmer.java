@@ -8,6 +8,7 @@ import net.cogzmc.core.player.CPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public final class Confirmer {
         void call(boolean result, CPlayer player);
     }
 
-    private static abstract class ConfirmCommand extends ModuleCommand {
+    private static abstract class ConfirmCommand extends VexusCommand {
         protected ConfirmCommand(String name) {
             super(name);
         }
