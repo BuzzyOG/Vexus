@@ -5,10 +5,11 @@ import net.cogzmc.core.modular.command.CommandPermission;
 import net.cogzmc.core.modular.command.ModuleCommand;
 import net.cogzmc.core.player.CPlayer;
 import net.cogzmc.core.util.Point;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
 @CommandPermission("vexus.setspawn")
-public final class SetspawnCommand extends ModuleCommand {
+public final class SetspawnCommand extends VexusCommand {
     public SetspawnCommand() {
         super("setspawn");
     }

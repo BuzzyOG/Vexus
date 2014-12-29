@@ -4,6 +4,7 @@ import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.CommandException;
 import net.cogzmc.core.modular.command.FriendlyException;
 import net.cogzmc.core.modular.command.ModuleCommand;
+import net.cogzmc.core.modular.command.UnhandledCommandExceptionException;
 import net.cogzmc.core.player.CooldownUnexpiredException;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
@@ -26,7 +27,13 @@ public abstract class VexusCommand extends ModuleCommand {
             CooldownUnexpiredException e = ((CooldownUnexpiredException) ex);
             sender.sendMessage(VexusCore.getInstance().getFormat("cooldown", new String[]{"<time>", String.valueOf(TimeUnit.MINUTES.convert(e.getTimeRemaining(), e.getTimeUnit()))}));
         }
-        else sender.sendMessage(VexusCore.getInstance().getFormat("error", new String[]{"<error>", (ex instanceof FriendlyException) ? ((FriendlyException) ex).getFriendlyMessage(this) : ex.getMessage()}));
+        else {
+            sender.sendMessage(VexusCore.getInstance().getFormat("error", new String[]{"<error>", (ex instanceof FriendlyException) ? ((FriendlyException) ex).getFriendlyMessage(this) : ex.getMessage()}));
+            ex.printStackTrace();
+            if (ex instanceof UnhandledCommandExceptionException) {
+                ((UnhandledCommandExceptionException) ex).getCausingException().printStackTrace();
+            }
+        }
         if (sender instanceof Player) Core.getOnlinePlayer((Player) sender).playSoundForPlayer(Sound.NOTE_BASS);
     }
 }
