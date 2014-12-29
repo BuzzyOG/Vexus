@@ -23,6 +23,8 @@ player-fed: "&7You have fed &a<player>&7."
 player-tped-here: "&7You have teleported &a<player> &7to your location."
 target-tped-here: "&7You have been teleported to &a<player>&7's location."
 cooldown: "&cYou need to wait <time> minutes to use this again"
+spawn-teleport: "&7You have been teleported to &aspawn"
+set-spawn: "&7You have set &aspawn"
 conf:
   question: "&7<prompt>"
   allow: "&7Type &a/yes&7 to confirm"

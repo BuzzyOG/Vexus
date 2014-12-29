@@ -25,6 +25,7 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new EconCommand());
 
         registerCommand(new SpawnCommand());
+        registerCommand(new SetspawnCommand());
         registerCommand(new TpaCommand());
         registerCommand(new TpahereCommand());
         registerCommand(new FlyCommand());
