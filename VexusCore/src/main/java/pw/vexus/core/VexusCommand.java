@@ -24,7 +24,7 @@ public abstract class VexusCommand extends ModuleCommand {
     protected void handleCommandException(CommandException ex, String[] args, CommandSender sender) {
         if (ex instanceof CooldownUnexpiredException) {
             CooldownUnexpiredException e = ((CooldownUnexpiredException) ex);
-            sender.sendMessage(VexusCore.getInstance().getFormat("cooldown", new String[]{"<time>", String.valueOf(e.getTimeUnit().convert(e.getTimeRemaining(), TimeUnit.MINUTES))}));
+            sender.sendMessage(VexusCore.getInstance().getFormat("cooldown", new String[]{"<time>", String.valueOf(TimeUnit.MINUTES.convert(e.getTimeRemaining(), e.getTimeUnit()))}));
         }
         else sender.sendMessage(VexusCore.getInstance().getFormat("error", new String[]{"<error>", (ex instanceof FriendlyException) ? ((FriendlyException) ex).getFriendlyMessage(this) : ex.getMessage()}));
         if (sender instanceof Player) Core.getOnlinePlayer((Player) sender).playSoundForPlayer(Sound.NOTE_BASS);

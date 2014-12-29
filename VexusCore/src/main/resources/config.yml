@@ -6,6 +6,6 @@ teleportPermissions: #Give people the permission vexus.teletime.{name}
 
 cooldowns:
    heal:
-     default: 3600000 #one hour in millis
+     default: 3600 #one hour in millis
    feed:
-     default: 3600000 #one hour in millis
+     default: 3600 #one hour in millis

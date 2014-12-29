@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class CooldownManager {
     public static void testForPermissibleCooldown(String key, CPlayer player) throws CooldownUnexpiredException {
-        if (player.hasPermission("vexus.bypasscooldown") || player.getBukkitPlayer().isOp()) return;
+        if (player.hasPermission("vexus.bypasscooldown") || player.hasPermission("vexus." + key + ".bypasscooldown") || player.getBukkitPlayer().isOp()) return;
         FileConfiguration config = VexusCore.getInstance().getConfig();
         if (!config.contains("cooldowns." + key)) return;
         ConfigurationSection configurationSection = config.getConfigurationSection("cooldowns." + key);
