@@ -29,10 +29,6 @@ public abstract class VexusCommand extends ModuleCommand {
         }
         else {
             sender.sendMessage(VexusCore.getInstance().getFormat("error", new String[]{"<error>", (ex instanceof FriendlyException) ? ((FriendlyException) ex).getFriendlyMessage(this) : ex.getMessage()}));
-            ex.printStackTrace();
-            if (ex instanceof UnhandledCommandExceptionException) {
-                ((UnhandledCommandExceptionException) ex).getCausingException().printStackTrace();
-            }
         }
         if (sender instanceof Player) Core.getOnlinePlayer((Player) sender).playSoundForPlayer(Sound.NOTE_BASS);
     }
