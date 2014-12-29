@@ -21,6 +21,7 @@ public final class GamemodeCommand extends VexusCommand {
         CPlayer target;
         if (args.length == 0) throw new ArgumentRequirementException("You did not specify a gamemode!");
         if (args.length == 1) target = player;
+        else if (!player.hasPermission("vexus.gamemode.others")) throw new PermissionException("You do not have permission to change other player's gamemodes!");
         else target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[1]);
 
         if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");

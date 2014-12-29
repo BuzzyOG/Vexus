@@ -3,3 +3,9 @@ teleport-wait-time: 10
 teleportPermissions: #Give people the permission vexus.teletime.{name}
   pro: 5 #vexus.teletime.pro
   mod: 2 #vexus.teletime.mod etc
+
+cooldowns:
+   heal:
+     default: 3600000 #one hour in millis
+   feed:
+     default: 3600000 #one hour in millis

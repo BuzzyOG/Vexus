@@ -23,8 +23,7 @@ public final class TpHereCommand extends VexusCommand {
 
         if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");
 
-        Player tPlayer = target.getBukkitPlayer();
-        Player sPlayer = player.getBukkitPlayer();
+        Player tPlayer = target.getBukkitPlayer(), sPlayer = player.getBukkitPlayer();
         tPlayer.teleport(sPlayer.getLocation());
 
         player.sendMessage(VexusCore.getInstance().getFormat("player-tped-here", new String[]{"<player>", target.getName()}));

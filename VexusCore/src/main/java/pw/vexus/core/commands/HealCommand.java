@@ -3,9 +3,13 @@ package pw.vexus.core.commands;
 import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.*;
 import net.cogzmc.core.player.CPlayer;
+import net.cogzmc.core.player.CooldownUnexpiredException;
 import org.bukkit.entity.Player;
+import pw.vexus.core.CooldownManager;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
+
+import java.util.concurrent.TimeUnit;
 
 @CommandMeta(description = "Heal yourself or the target player.")
 @CommandPermission("vexus.heal")
@@ -14,15 +18,16 @@ public final class HealCommand extends VexusCommand {
         super("heal");
     }
 
-    //TODO Needs cooldown!
-
     @Override
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
         CPlayer target;
         if (args.length == 0) target = player;
+        else if (!player.hasPermission("vexus.heal.others")) throw new PermissionException("You do not have permission to heal others!");
         else target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[0]);
 
         if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");
+        CooldownManager.testForPermissibleCooldown("heal", player);
+
         Player tPlayer = target.getBukkitPlayer();
         tPlayer.setHealth(tPlayer.getMaxHealth());
         tPlayer.setFoodLevel(20);

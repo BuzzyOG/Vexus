@@ -23,7 +23,7 @@ public final class TeleMan {
         for (String s : teleportPermissions.getKeys(false)) {
             if (!player.hasPermission("vexus.teletime." + s)) continue;
             int newTime = teleportPermissions.getInt(s);
-            if (time < newTime) time = newTime;
+            if (time > newTime) time = newTime;
         }
         return time;
     }
@@ -48,7 +48,7 @@ public final class TeleMan {
             this.initialLocation = player.getBukkitPlayer().getLocation().clone();
             this.time = time;
 
-            task = Bukkit.getScheduler().runTaskTimer(VexusCore.getInstance(), this, 0, 20);
+            task = Bukkit.getScheduler().runTaskTimer(VexusCore.getInstance(), this, 0, 0);
             secondsPassed = 0;
 
             VexusCore.getInstance().registerListener(this);
@@ -57,8 +57,7 @@ public final class TeleMan {
 
         @Override
         public void run() {
-            secondsPassed++;
-            if (player.getBukkitPlayer().getLocation().distanceSquared(initialLocation) >= 9) {
+            if (player.getBukkitPlayer().getLocation().distanceSquared(initialLocation) >= 4) {
                 cancel();
                 return;
             }
@@ -68,6 +67,7 @@ public final class TeleMan {
                 return;
             }
             player.sendMessage(VexusCore.getInstance().getFormat("teleport-wait", new String[]{"<remain>", String.valueOf(time-secondsPassed)}));
+            secondsPassed++;
         }
 
         @EventHandler
