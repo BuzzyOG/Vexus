@@ -3,10 +3,14 @@ package pw.vexus.core.warp;
 import com.google.common.collect.ImmutableList;
 import net.cogzmc.core.modular.command.ArgumentRequirementException;
 import net.cogzmc.core.modular.command.CommandException;
+import net.cogzmc.core.modular.command.CommandMeta;
+import net.cogzmc.core.modular.command.CommandPermission;
 import net.cogzmc.core.player.CPlayer;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
+@CommandMeta(description = "Deletes warps by name")
+@CommandPermission("vexus.delwarp")
 public final class DelWarpCommand extends VexusCommand {
     public DelWarpCommand() {
         super("delwarp");
