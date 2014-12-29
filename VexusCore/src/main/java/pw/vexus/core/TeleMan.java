@@ -48,7 +48,7 @@ public final class TeleMan {
             this.initialLocation = player.getBukkitPlayer().getLocation().clone();
             this.time = time;
 
-            task = Bukkit.getScheduler().runTaskTimer(VexusCore.getInstance(), this, 20, 0);
+            task = Bukkit.getScheduler().runTaskTimer(VexusCore.getInstance(), this, 0, 20);
             secondsPassed = 0;
 
             VexusCore.getInstance().registerListener(this);
