@@ -20,7 +20,7 @@ public final class FeedCommand extends VexusCommand {
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
         CPlayer target;
         if (args.length == 0) target = player;
-        else if (player.hasPermission("vexus.feed.others")) throw new PermissionException("You do not have permission to feed others!");
+        else if (!player.hasPermission("vexus.feed.others")) throw new PermissionException("You do not have permission to feed others!");
         else target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[0]);
 
         if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");
