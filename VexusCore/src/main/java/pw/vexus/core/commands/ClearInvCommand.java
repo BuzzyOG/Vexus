@@ -1,10 +1,7 @@
 package pw.vexus.core.commands;
 
 import net.cogzmc.core.Core;
-import net.cogzmc.core.modular.command.ArgumentRequirementException;
-import net.cogzmc.core.modular.command.CommandException;
-import net.cogzmc.core.modular.command.CommandMeta;
-import net.cogzmc.core.modular.command.CommandPermission;
+import net.cogzmc.core.modular.command.*;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.entity.Player;
 import pw.vexus.core.VexusCommand;
@@ -22,6 +19,7 @@ public final class ClearInvCommand extends VexusCommand {
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
         CPlayer target;
         if (args.length == 0) target = player;
+        else if (!player.hasPermission("vexus.clear.others")) throw new PermissionException("You do not have permission to clear other's inventories!");
         else target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[0]);
 
         if (target == null) throw new ArgumentRequirementException("That player you specified is invalid!");
