@@ -45,6 +45,7 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new TpHereCommand());
         registerCommand(new TpCommand());
         registerCommand(new ClearInvCommand());
+        registerCommand(new ClearChatCommand());
 
         registerCommand(new WarpCommand());
         registerCommand(new SetwarpCommand());
