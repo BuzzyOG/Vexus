@@ -33,7 +33,7 @@ public final class ListCommand extends VexusCommand {
             String chatColor1 = cPlayer.getPrimaryGroup().getChatColor();
             names.add((ChatColor.translateAlternateColorCodes('&', chatColor == null ? chatColor1 == null ? "" : chatColor1 : chatColor)) + cPlayer.getName());
         }
-        player.sendMessage(VexusCore.getInstance().getFormat("player-list", new String[]{"<list>", Joiner.on(',').join(names)}));
+        player.sendMessage(VexusCore.getInstance().getFormat("player-list", new String[]{"<list>", Joiner.on(ChatColor.GRAY + ", " + ChatColor.GREEN).join(names)}));
 
     }
 }

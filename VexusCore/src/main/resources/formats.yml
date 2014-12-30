@@ -31,7 +31,7 @@ warp-list: "&7Warps: &a<warps>"
 del-warp: "&7You have deleted &a<warp>"
 inventory-cleared: "&7You have cleared &a<target>&7's inventory."
 chat-cleared: "&7The chat has been cleared by &a<player>&7."
-players-online: "&7There are &a<online>&7 of &a<max>&7 players online:"
+players-online: "&7There are &a<online>&7/&a<max>&7 players online:"
 player-list: "&7<list>"
 conf:
   question: "&7<prompt>"
