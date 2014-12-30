@@ -10,7 +10,7 @@ import pw.vexus.core.VexusCore;
 
 @CommandPermission("vexus.cc")
 @CommandMeta(aliases = {"clearchat"}, description = "Clear the chat.")
-public class ClearChatCommand extends VexusCommand {
+public final class ClearChatCommand extends VexusCommand {
 
     public ClearChatCommand() {
         super("cc");

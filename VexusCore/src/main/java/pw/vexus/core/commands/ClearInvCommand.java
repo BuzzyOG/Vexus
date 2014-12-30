@@ -12,7 +12,7 @@ import pw.vexus.core.VexusCore;
 
 @CommandMeta(aliases = {"clear"}, description = "Clear your or the target player's inventory.")
 @CommandPermission("vexus.clear")
-public class ClearInvCommand extends VexusCommand {
+public final class ClearInvCommand extends VexusCommand {
 
     public ClearInvCommand() {
         super("ci");
