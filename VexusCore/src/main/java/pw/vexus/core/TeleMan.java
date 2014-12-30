@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
@@ -64,6 +65,7 @@ public final class TeleMan {
             if (secondsPassed == time) {
                 player.getBukkitPlayer().teleport(target);
                 task.cancel();
+                clean();
                 return;
             }
             player.sendMessage(VexusCore.getInstance().getFormat("teleport-wait", new String[]{"<remain>", String.valueOf(time-secondsPassed)}));
@@ -74,6 +76,11 @@ public final class TeleMan {
         public void onPlayerLeave(PlayerQuitEvent event) {
             if (!event.getPlayer().getUniqueId().equals(player.getUniqueIdentifier())) return;
             cancel();
+            clean();
+        }
+
+        private void clean() {
+            HandlerList.unregisterAll(this);
         }
 
         private void cancel() {
