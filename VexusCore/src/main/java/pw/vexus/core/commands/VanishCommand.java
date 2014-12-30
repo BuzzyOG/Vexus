@@ -8,6 +8,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import pw.vexus.core.VexusCommand;
 
 public final class VanishCommand extends VexusCommand {
+    public VanishCommand() {
+        super("vanish");
+    }
 
     public static final class VanishListener implements Listener {
         @EventHandler
@@ -18,6 +21,4 @@ public final class VanishCommand extends VexusCommand {
 
         }
     }
-
-    public static void vanish()
 }

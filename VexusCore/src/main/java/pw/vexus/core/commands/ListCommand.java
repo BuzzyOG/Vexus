@@ -10,11 +10,12 @@ import org.bukkit.Bukkit;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @CommandMeta(description = "Lists all online players.")
 @CommandPermission("vexus.list")
-public class ListCommand extends VexusCommand {
+public final class ListCommand extends VexusCommand {
 
     public ListCommand() {
         super("list");
@@ -22,18 +23,14 @@ public class ListCommand extends VexusCommand {
 
     @Override
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
-        int online = Core.getOnlinePlayers().size();
-        String o = Integer.toString(online);
+        player.sendMessage(VexusCore.getInstance().getFormat("players-online", new String[]{"<online>", String.valueOf(Core.getOnlinePlayers().size())}, new String[]{"max", String.valueOf(Bukkit.getMaxPlayers())}));
 
-        int max = Bukkit.getMaxPlayers();
-        String m = Integer.toString(max);
-
-        player.sendMessage(VexusCore.getInstance().getFormat("players-online", new String[]{"<online>", o}, new String[]{"max", m}));
-
-        Collection<CPlayer> onlinePlayers = Core.getOnlinePlayers();
-        String list = Joiner.on(",").join(onlinePlayers);
-
-        player.sendMessage(VexusCore.getInstance().getFormat("player-list", new String[]{"<list>", list}));
+        List<String> names = new ArrayList<>();
+        for (CPlayer cPlayer : Core.getOnlinePlayers()) {
+            //TODO if vanished
+            names.add(cPlayer.getChatColor() + cPlayer.getName());
+        }
+        player.sendMessage(VexusCore.getInstance().getFormat("player-list", new String[]{"<list>", Joiner.on(',').join(names)}));
 
     }
 }
