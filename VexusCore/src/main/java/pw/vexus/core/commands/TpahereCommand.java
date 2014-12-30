@@ -18,7 +18,7 @@ public final class TpahereCommand extends VexusCommand {
         if (args.length < 1) throw new ArgumentRequirementException("You have not specified a player!");
         final CPlayer target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[0]);
         if (target == null) throw new ArgumentRequirementException("The player you have specified does not exist!");
-        Confirmer.confirm("Do you want to teleport to " + sender.getDisplayName() + "'s current location?", target, new Confirmer.ConfrimerCallback() {
+        Confirmer.confirm("Do you want to teleport to " + sender.getDisplayName() + "'s current location?", target, new Confirmer.ConfirmerCallback() {
             @Override
             public void call(boolean result, CPlayer pl) {
                 if (!sender.isOnline()) return;

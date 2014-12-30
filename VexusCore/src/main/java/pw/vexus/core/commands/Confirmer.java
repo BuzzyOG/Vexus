@@ -3,7 +3,6 @@ package pw.vexus.core.commands;
 import net.cogzmc.core.modular.command.ArgumentRequirementException;
 import net.cogzmc.core.modular.command.CommandException;
 import net.cogzmc.core.modular.command.CommandMeta;
-import net.cogzmc.core.modular.command.ModuleCommand;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,9 +15,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class Confirmer {
-    private final static Map<UUID, ConfrimerCallback> pendingQuestions = new HashMap<>();
+    private final static Map<UUID, ConfirmerCallback> pendingQuestions = new HashMap<>();
 
-    public static void confirm(String prompt, CPlayer player, ConfrimerCallback callback) {
+    public static void confirm(String prompt, CPlayer player, ConfirmerCallback callback) {
         pendingQuestions.put(player.getUniqueIdentifier(), callback);
         VexusCore instance = VexusCore.getInstance();
         player.sendMessage(instance.getFormat("conf.question", new String[]{"<prompt>", prompt}), instance.getFormat("conf.allow"), instance.getFormat("conf.deny"));
@@ -37,7 +36,7 @@ public final class Confirmer {
         }
     }
 
-    public static interface ConfrimerCallback {
+    public static interface ConfirmerCallback {
         void call(boolean result, CPlayer player);
     }
 

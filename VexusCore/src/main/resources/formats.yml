@@ -29,6 +29,7 @@ set-warp: "&7You have set &a<warp>"
 warp: "&7Warping to &a<warp>"
 warp-list: "&7Warps: &a<warps>"
 del-warp: "&7You have deleted &a<warp>"
+inventory-cleared: "&7You have cleared &a<target>&7's inventory."
 conf:
   question: "&7<prompt>"
   allow: "&7Type &a/yes&7 to confirm"
