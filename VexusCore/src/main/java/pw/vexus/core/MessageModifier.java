@@ -13,9 +13,7 @@ public final class MessageModifier implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
         event.setJoinMessage(VexusCore.getInstance().getFormat("player-join", new String[]{"<player>", p.getName()}));
-        if (!(p.hasPlayedBefore())) {
-            event.setJoinMessage(VexusCore.getInstance().getFormat("player-first-join", new String[]{"<player>", p.getName()}));
-        }
+        if (!(p.hasPlayedBefore())) event.setJoinMessage(VexusCore.getInstance().getFormat("player-first-join", new String[]{"<player>", p.getName()}));
     }
 
     @EventHandler
