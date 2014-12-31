@@ -20,8 +20,7 @@ public final class MessageModifier implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
-        Player p = event.getPlayer();
-        event.setQuitMessage(VexusCore.getInstance().getFormat("player-leave", new String[]{"<player>", p.getName()}));
+        event.setQuitMessage(VexusCore.getInstance().getFormat("player-leave", new String[]{"<player>", event.getPlayer().getName()}));
     }
 
     @EventHandler
@@ -31,7 +30,6 @@ public final class MessageModifier implements Listener {
 
     @EventHandler
     public void onKick(PlayerKickEvent event) {
-        Player p = event.getPlayer();
-        event.setLeaveMessage(VexusCore.getInstance().getFormat("kick-message", new String[]{"<player>", p.getName()}));
+        event.setLeaveMessage(VexusCore.getInstance().getFormat("kick-message", new String[]{"<player>", event.getPlayer().getName()}));
     }
 }

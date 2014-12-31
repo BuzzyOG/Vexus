@@ -15,7 +15,7 @@ abstract class TargetedSubCommandEcon extends VexusCommand {
     abstract void performAction(CommandSender sender, CPlayer target, String[] args) throws CommandException;
 
     @Override
-    protected void handleCommandUnspecific(CommandSender sender, String[] args) throws CommandException {
+    protected final void handleCommandUnspecific(CommandSender sender, String[] args) throws CommandException {
         if (args.length < 1) throw new ArgumentRequirementException("You must specify a target!");
         String[] args2 = new String[args.length-1];
         System.arraycopy(args, 1, args2, 0, args.length-1);
