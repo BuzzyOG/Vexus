@@ -52,6 +52,8 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new SetwarpCommand());
         registerCommand(new DelWarpCommand());
 
+        getServer().getPluginManager().registerEvents(new BukkitMessageManager(), this);
+
         new Confirmer.ConfirmerDriver();
     }
 
