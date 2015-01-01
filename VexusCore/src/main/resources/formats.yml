@@ -41,6 +41,4 @@ conf:
   question: "&7<prompt>"
   allow: "&7Type &a/yes&7 to confirm"
   deny: "&7Type &c/no&7 to deny"
-death-message:
-  jews:
-  niggers:
+death-message: "&7<message>"
