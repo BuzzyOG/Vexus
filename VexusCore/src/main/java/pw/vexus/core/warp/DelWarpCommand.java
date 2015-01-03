@@ -8,6 +8,7 @@ import net.cogzmc.core.modular.command.CommandPermission;
 import net.cogzmc.core.player.CPlayer;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
+import pw.vexus.core.commands.Confirmer;
 
 @CommandMeta(description = "Deletes warps by name")
 @CommandPermission("vexus.delwarp")
@@ -19,11 +20,16 @@ public final class DelWarpCommand extends VexusCommand {
     @Override
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
         if (args.length == 0) throw new ArgumentRequirementException("You need to specify a warp!");
-        String arg = args[0];
-        WarpManager warpManager = VexusCore.getInstance().getWarpManager();
+        final String arg = args[0];
+        final WarpManager warpManager = VexusCore.getInstance().getWarpManager();
         ImmutableList<String> warps = warpManager.getWarps();
         if (!warps.contains(arg)) throw new ArgumentRequirementException("This warp does not exist!");
-        warpManager.delWarp(arg);
-        player.sendMessage(VexusCore.getInstance().getFormat("del-warp", new String[]{"<warp>", arg}));
+        Confirmer.confirm("Are you sure you want to delete the warp " + arg, player, new Confirmer.ConfirmerCallback() {
+            @Override
+            public void call(boolean result, CPlayer player) {
+                warpManager.delWarp(arg);
+                player.sendMessage(VexusCore.getInstance().getFormat("del-warp", new String[]{"<warp>", arg}));
+            }
+        });
     }
 }

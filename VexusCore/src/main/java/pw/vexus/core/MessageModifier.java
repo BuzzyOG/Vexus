@@ -1,5 +1,6 @@
 package pw.vexus.core;
 
+import net.cogzmc.core.Core;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,8 +13,8 @@ public final class MessageModifier implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
-        event.setJoinMessage(VexusCore.getInstance().getFormat("player-join", new String[]{"<player>", p.getName()}));
-        if (!(p.hasPlayedBefore())) event.setJoinMessage(VexusCore.getInstance().getFormat("player-first-join", new String[]{"<player>", p.getName()}));
+        if (Core.getOnlinePlayer(p).isFirstJoin()) event.setJoinMessage(VexusCore.getInstance().getFormat("player-first-join", new String[]{"<player>", p.getName()}));
+        else event.setJoinMessage(VexusCore.getInstance().getFormat("player-join", new String[]{"<player>", p.getName()}));
     }
 
     @EventHandler

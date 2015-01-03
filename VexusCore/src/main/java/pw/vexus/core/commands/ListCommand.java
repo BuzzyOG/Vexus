@@ -12,6 +12,7 @@ import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @CommandMeta(description = "Lists all online players.")
@@ -24,11 +25,18 @@ public final class ListCommand extends VexusCommand {
 
     @Override
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
-        player.sendMessage(VexusCore.getInstance().getFormat("players-online", new String[]{"<online>", String.valueOf(Core.getOnlinePlayers().size())}, new String[]{"<max>", String.valueOf(Bukkit.getMaxPlayers())}));
+        Collection<CPlayer> onlinePlayers = Core.getOnlinePlayers();
+
+        int count = 0;
+        for (CPlayer onlinePlayer : onlinePlayers) {
+            if (!VanishCommand.canSee(onlinePlayer, player)) continue;
+            count++;
+        }
+        player.sendMessage(VexusCore.getInstance().getFormat("players-online", new String[]{"<online>", String.valueOf(count)}, new String[]{"<max>", String.valueOf(Bukkit.getMaxPlayers())}));
 
         List<String> names = new ArrayList<>();
-        for (CPlayer cPlayer : Core.getOnlinePlayers()) {
-            //TODO if vanished
+        for (CPlayer cPlayer : onlinePlayers) {
+            if (!VanishCommand.canSee(cPlayer, player)) continue;
             String chatColor = cPlayer.getChatColor();
             String chatColor1 = cPlayer.getPrimaryGroup().getChatColor();
             names.add((ChatColor.translateAlternateColorCodes('&', chatColor == null ? chatColor1 == null ? "" : chatColor1 : chatColor)) + cPlayer.getName());

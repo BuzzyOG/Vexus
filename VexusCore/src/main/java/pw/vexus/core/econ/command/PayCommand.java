@@ -7,6 +7,7 @@ import net.cogzmc.core.player.DatabaseConnectException;
 import org.bukkit.Sound;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
+import pw.vexus.core.commands.VanishCommand;
 import pw.vexus.core.econ.EconomyManager;
 
 @CommandMeta(description = "Used to send funds to players!", aliases = {"send"})
@@ -20,7 +21,7 @@ public final class PayCommand extends VexusCommand {
     protected void handleCommand(CPlayer sender, String[] args) throws CommandException {
         if (args.length < 2) throw new ArgumentRequirementException("You have not specified a player to pay and an amount!");
         CPlayer target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[0]);
-        if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");
+        if (target == null || !VanishCommand.canSee(target, sender)) throw new ArgumentRequirementException("The player you specified is invalid!");
         Double amount = Double.valueOf(args[1]);
         if (amount < 0) throw new ArgumentRequirementException("The value must be positive!");
         VexusCore instance = VexusCore.getInstance();

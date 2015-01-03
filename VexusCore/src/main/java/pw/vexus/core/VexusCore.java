@@ -32,18 +32,19 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new PayCommand());
         registerCommand(new EconCommand());
 
-        registerCommand(new SpawnCommand());
-        registerCommand(new SetspawnCommand());
-        registerCommand(new TpaCommand());
-        registerCommand(new TpahereCommand());
         registerCommand(new FlyCommand());
         registerCommand(new NearCommand());
-
         registerCommand(new GamemodeCommand());
         registerCommand(new HealCommand());
         registerCommand(new FeedCommand());
+        registerCommand(new PlayerTimeCommand());
+        registerCommand(new VanishCommand());
+
         registerCommand(new TpHereCommand());
         registerCommand(new TpCommand());
+        registerCommand(new TpaCommand());
+        registerCommand(new TpahereCommand());
+
         registerCommand(new ClearInvCommand());
         registerCommand(new ClearChatCommand());
         registerCommand(new ListCommand());
@@ -51,6 +52,8 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new WarpCommand());
         registerCommand(new SetwarpCommand());
         registerCommand(new DelWarpCommand());
+        registerCommand(new SpawnCommand());
+        registerCommand(new SetspawnCommand());
 
         getServer().getPluginManager().registerEvents(new MessageModifier(), this);
 

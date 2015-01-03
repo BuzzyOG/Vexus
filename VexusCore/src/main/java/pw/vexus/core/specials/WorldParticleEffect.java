@@ -7,6 +7,7 @@ import net.cogzmc.core.util.Point;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.scheduler.BukkitTask;
 import pw.vexus.core.VexusCore;
 
 public final class WorldParticleEffect {
@@ -18,7 +19,6 @@ public final class WorldParticleEffect {
     private final int size;
 
     private final ParticleEffectType effectType;
-
     @Getter(lazy = true) private final World bukkitWorld = _getWorld();
 
     private Location getLocation() {
@@ -36,6 +36,7 @@ public final class WorldParticleEffect {
         this.ticksPerCycle = ticksPerCycle;
         this.size = size;
         this.effectType = effectType;
+        new WPEPlayer().start();
     }
 
 
@@ -140,5 +141,6 @@ public final class WorldParticleEffect {
             WorldParticleEffect worldParticleEffect = WorldParticleEffect.this;
             worldParticleEffect.type.delegate.playInEffect(worldParticleEffect);
         }
+
     }
 }

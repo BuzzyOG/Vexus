@@ -56,8 +56,8 @@ public final class Confirmer {
         }
     }
 
-    @CommandMeta(aliases = {"confirm", "y"})
-    public static class YesCommand extends ConfirmCommand {
+    @CommandMeta(aliases = {"confirm", "y", "accept"})
+    public static final class YesCommand extends ConfirmCommand {
         public YesCommand() {
             super("yes");
         }
@@ -69,7 +69,7 @@ public final class Confirmer {
     }
 
     @CommandMeta(aliases = {"deny", "n"})
-    public static class NoCommand extends ConfirmCommand {
+    public static final class NoCommand extends ConfirmCommand {
         public NoCommand() {
             super("no");
         }

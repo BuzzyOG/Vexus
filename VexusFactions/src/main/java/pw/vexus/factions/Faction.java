@@ -1,7 +1,13 @@
 package pw.vexus.factions;
 
-/**
- * Created by Electric on 12/26/2014.
- */
-public class Faction {
+import java.util.Map;
+import java.util.UUID;
+
+public final class Faction {
+    private final Map<UUID, FactionRank> members;
+    private final String name, description;
+
+    public static enum FactionRank {
+
+    }
 }

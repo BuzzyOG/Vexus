@@ -1,7 +1,11 @@
 package pw.vexus.core;
 
+import net.cogzmc.core.modular.command.CommandException;
+import net.cogzmc.core.modular.command.FriendlyException;
+import net.cogzmc.core.modular.command.ModuleCommand;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,7 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 public final class TeleMan {
-    public static void teleportPlayer(CPlayer player, Location newLocation) {
+    public static void teleportPlayer(CPlayer player, Location newLocation) throws TeleportException {
         teleportPlayer(player, newLocation, resolveTeleportTimeForPlayer(player));
     }
 
@@ -29,9 +33,12 @@ public final class TeleMan {
         return time;
     }
 
-    public static void teleportPlayer(CPlayer player, Location newLocation, Integer time) {
+    public static void teleportPlayer(CPlayer player, Location newLocation, Integer time) throws TeleportException {
         if (time == 0) player.getBukkitPlayer().teleport(newLocation);
-        else new TeleportTask(player, newLocation, time);
+        else {
+            if (player.getBukkitPlayer().getFallDistance() > 2.0f) throw new TeleportException("You cannot teleport while falling this quickly!");
+            new TeleportTask(player, newLocation, time);
+        }
     }
 
     private static class TeleportTask implements Runnable, Listener {
@@ -86,6 +93,17 @@ public final class TeleMan {
         private void cancel() {
             task.cancel();
             if (player.isOnline()) player.sendMessage(VexusCore.getInstance().getFormat("teleport-cancel"));
+        }
+    }
+
+    public static final class TeleportException extends CommandException implements FriendlyException {
+        public TeleportException(String message) {
+            super(message);
+        }
+
+        @Override
+        public String getFriendlyMessage(ModuleCommand command) {
+            return ChatColor.RED + getMessage();
         }
     }
 }
