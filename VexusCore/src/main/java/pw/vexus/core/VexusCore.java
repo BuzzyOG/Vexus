@@ -48,6 +48,7 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new FeedCommand());
         registerCommand(new PlayerTimeCommand());
         registerCommand(new VanishCommand());
+        registerCommand(new SuicideCommand());
         registerCommand(new CrashCommand());
 
         registerCommand(new TpHereCommand());
