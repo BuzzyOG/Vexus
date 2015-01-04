@@ -18,7 +18,6 @@ import java.util.List;
 @CommandMeta(description = "Lists all online players.")
 @CommandPermission("vexus.list")
 public final class ListCommand extends VexusCommand {
-
     public ListCommand() {
         super("list");
     }

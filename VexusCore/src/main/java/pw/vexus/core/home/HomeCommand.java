@@ -32,6 +32,7 @@ public final class HomeCommand extends VexusCommand {
         if (args.length < 1 && homes.size() > 1) throw new ArgumentRequirementException("You have not specified a home!");
         String home =  args.length < 1 && homes.size() == 1 ? homes.keySet().iterator().next() : args[0].toLowerCase();
         Location l = homes.get(home);
+        if (l == null) throw new ArgumentRequirementException("This home has not been set!");
         player.sendMessage(VexusCore.getInstance().getFormat("teleport-home", new String[]{"<home>", home}));
         TeleMan.teleportPlayer(player, l);
     }

@@ -1,5 +1,6 @@
 package pw.vexus.core;
 
+import lombok.NonNull;
 import net.cogzmc.core.modular.command.CommandException;
 import net.cogzmc.core.modular.command.FriendlyException;
 import net.cogzmc.core.modular.command.ModuleCommand;
@@ -34,7 +35,7 @@ public final class TeleMan {
         return time;
     }
 
-    public static void teleportPlayer(CPlayer player, Location target, Integer time) throws TeleportException {
+    public static void teleportPlayer(CPlayer player, @NonNull Location target, Integer time) throws TeleportException {
         if (time == 0) doTeleport(player, target);
         else {
             if (player.getBukkitPlayer().getFallDistance() > 2.0f) throw new TeleportException("You cannot teleport while falling this quickly!");

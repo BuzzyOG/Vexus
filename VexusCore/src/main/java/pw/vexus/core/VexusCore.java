@@ -77,6 +77,7 @@ public final class VexusCore extends ModularPlugin {
     @Override
     protected void onModuleDisable() throws Exception {
         warpManager.save();
+        homeManager.save();
         instance = null;
     }
 }

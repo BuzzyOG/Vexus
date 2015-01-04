@@ -48,10 +48,14 @@ public final class HomeManager implements CPlayerConnectionListener {
 
     @Override
     public void onPlayerDisconnect(CPlayer player) {
+        savePlayer(player);
+        homes.remove(player);
+    }
+
+    private void savePlayer(CPlayer player) {
         BasicDBObject object = new BasicDBObject();
         for (String s : homes.get(player).keySet()) object.put(s, getObjectForLocation(homes.get(player).get(s)));
         player.storeSettingValue("vexusHomes", object);
-        homes.remove(player);
     }
 
     private final static String X_KEY = "x", Y_KEY = "y", Z_KEY = "z", PITCH_KEY = "p", YAW_KEY ="q", WORLD_KEY = "w";
@@ -70,5 +74,9 @@ public final class HomeManager implements CPlayerConnectionListener {
         ConfigurationSection homes1 = config.getConfigurationSection("homes");
         for (String s : homes1.getKeys(false)) if (player.hasPermission("vexus.homes." + s)) return homes1.getInt(s);
         return config.getInt("default-homes", 1);
+    }
+
+    public void save() {
+        for (CPlayer cPlayer : Core.getOnlinePlayers()) savePlayer(cPlayer);
     }
 }
