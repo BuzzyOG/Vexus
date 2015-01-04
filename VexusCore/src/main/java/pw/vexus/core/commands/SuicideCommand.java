@@ -4,13 +4,13 @@ import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.CommandException;
 import net.cogzmc.core.modular.command.CommandMeta;
 import net.cogzmc.core.modular.command.CommandPermission;
-import net.cogzmc.core.modular.command.ModuleCommand;
 import net.cogzmc.core.player.CPlayer;
+import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
 @CommandMeta(description = "Commit suicide.")
 @CommandPermission("vexus.suicide")
-public final class SuicideCommand extends ModuleCommand {
+public final class SuicideCommand extends VexusCommand {
     public SuicideCommand() {
         super("suicide");
     }
