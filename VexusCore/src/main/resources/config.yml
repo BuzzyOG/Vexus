@@ -13,3 +13,6 @@ cooldowns:
 default-homes: 1
 homes:
    pro: -1
+motds:
+   test1: "&7Welcome to &aVexus&7!"
+   test2: "&7Come join &aVexus&7!"

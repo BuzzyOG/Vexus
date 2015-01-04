@@ -1,6 +1,7 @@
 package pw.vexus.core;
 
 import net.cogzmc.core.Core;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,8 +9,15 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.ServerListPingEvent;
+
+import java.util.List;
+import java.util.Random;
 
 public final class MessageModifier implements Listener {
+
+    Random random = new Random();
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
@@ -30,5 +38,12 @@ public final class MessageModifier implements Listener {
     @EventHandler
     public void onKick(PlayerKickEvent event) {
         event.setLeaveMessage(VexusCore.getInstance().getFormat("kick-message", new String[]{"<player>", event.getPlayer().getName()}));
+    }
+
+    @EventHandler
+    public void onPing(ServerListPingEvent event) {
+        List<String> motds = VexusCore.getInstance().getConfig().getStringList("motds");
+        if (motds.size() == 0) return;
+        event.setMotd(ChatColor.translateAlternateColorCodes('&', motds.get(random.nextInt(motds.size()))));
     }
 }
