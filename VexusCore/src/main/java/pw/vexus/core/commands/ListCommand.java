@@ -39,7 +39,7 @@ public final class ListCommand extends VexusCommand {
             if (!VanishCommand.canSee(cPlayer, player)) continue;
             String chatColor = cPlayer.getChatColor();
             String chatColor1 = cPlayer.getPrimaryGroup().getChatColor();
-            names.add((ChatColor.translateAlternateColorCodes('&', chatColor == null ? chatColor1 == null ? "" : chatColor1 : chatColor)) + cPlayer.getName());
+            names.add((ChatColor.translateAlternateColorCodes('&', chatColor == null ? chatColor1 == null ? "" : chatColor1 : chatColor)) + cPlayer.getDisplayName());
         }
         player.sendMessage(VexusCore.getInstance().getFormat("player-list", new String[]{"<list>", Joiner.on(ChatColor.GRAY + ", " + ChatColor.GREEN).join(names)}));
 

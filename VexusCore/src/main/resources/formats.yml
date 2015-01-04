@@ -44,3 +44,6 @@ conf:
 death-message: "&7<message>"
 changed-ptime: "&7You have &a<state> <target>'s&7 player time"
 vanish-toggled: "&7You have &a<state>&7 vanish mode"
+teleport-home: "&7Sending you to &a<home>"
+deleted-home: "&7Deleting home &c<home>"
+set-home: "&7Setting home &a<home>&7 here!"

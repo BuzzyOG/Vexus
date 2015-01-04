@@ -27,6 +27,7 @@ public final class DelWarpCommand extends VexusCommand {
         Confirmer.confirm("Are you sure you want to delete the warp " + arg, player, new Confirmer.ConfirmerCallback() {
             @Override
             public void call(boolean result, CPlayer player) {
+                if (!result) return;
                 warpManager.delWarp(arg);
                 player.sendMessage(VexusCore.getInstance().getFormat("del-warp", new String[]{"<warp>", arg}));
             }

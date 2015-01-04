@@ -9,3 +9,7 @@ cooldowns:
      default: 3600 #one hour in millis
    feed:
      default: 3600 #one hour in millis
+
+default-homes: 1
+homes:
+   pro: -1

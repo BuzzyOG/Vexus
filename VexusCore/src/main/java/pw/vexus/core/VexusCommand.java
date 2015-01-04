@@ -26,6 +26,8 @@ public abstract class VexusCommand extends ModuleCommand {
         if (ex instanceof CooldownUnexpiredException) {
             CooldownUnexpiredException e = ((CooldownUnexpiredException) ex);
             sender.sendMessage(VexusCore.getInstance().getFormat("cooldown", new String[]{"<time>", String.valueOf(TimeUnit.MINUTES.convert(e.getTimeRemaining(), e.getTimeUnit()))}));
+        } else if (ex instanceof UnhandledCommandExceptionException) {
+            ((UnhandledCommandExceptionException) ex).getCausingException().printStackTrace();
         }
         else {
             sender.sendMessage(VexusCore.getInstance().getFormat("error", new String[]{"<error>", (ex instanceof FriendlyException) ? ((FriendlyException) ex).getFriendlyMessage(this) : ex.getMessage()}));

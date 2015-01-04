@@ -7,6 +7,7 @@ import net.cogzmc.core.player.CPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -33,12 +34,17 @@ public final class TeleMan {
         return time;
     }
 
-    public static void teleportPlayer(CPlayer player, Location newLocation, Integer time) throws TeleportException {
-        if (time == 0) player.getBukkitPlayer().teleport(newLocation);
+    public static void teleportPlayer(CPlayer player, Location target, Integer time) throws TeleportException {
+        if (time == 0) doTeleport(player, target);
         else {
             if (player.getBukkitPlayer().getFallDistance() > 2.0f) throw new TeleportException("You cannot teleport while falling this quickly!");
-            new TeleportTask(player, newLocation, time);
+            new TeleportTask(player, target, time);
         }
+    }
+
+    private static void doTeleport(CPlayer player, Location location) {
+        player.getBukkitPlayer().teleport(location);
+        player.playSoundForPlayer(Sound.ENDERMAN_TELEPORT);
     }
 
     private static class TeleportTask implements Runnable, Listener {
@@ -70,7 +76,7 @@ public final class TeleMan {
                 return;
             }
             if (secondsPassed == time) {
-                player.getBukkitPlayer().teleport(target);
+                doTeleport(player, target);
                 task.cancel();
                 clean();
                 return;
