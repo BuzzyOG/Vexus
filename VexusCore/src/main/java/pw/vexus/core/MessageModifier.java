@@ -16,8 +16,6 @@ import java.util.Random;
 
 public final class MessageModifier implements Listener {
 
-    Random random = new Random();
-
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
@@ -44,6 +42,6 @@ public final class MessageModifier implements Listener {
     public void onPing(ServerListPingEvent event) {
         List<String> motds = VexusCore.getInstance().getConfig().getStringList("motds");
         if (motds.size() == 0) return;
-        event.setMotd(ChatColor.translateAlternateColorCodes('&', motds.get(random.nextInt(motds.size()))));
+        event.setMotd(ChatColor.translateAlternateColorCodes('&', motds.get(Core.getRandom().nextInt(motds.size()))));
     }
 }
