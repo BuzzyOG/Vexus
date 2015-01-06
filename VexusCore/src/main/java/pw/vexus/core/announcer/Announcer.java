@@ -7,6 +7,7 @@ import net.cogzmc.core.Core;
 import net.cogzmc.core.player.CPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -92,6 +93,7 @@ public final class Announcer implements Listener {
             HashSet<CPlayer> cPlayers = new HashSet<>(Core.getOnlinePlayers());
             cPlayers.removeAll(activatedPlayers);
             for (CPlayer cPlayer : cPlayers) cPlayer.sendMessage(announcement);
+            for (CPlayer activatedPlayer : activatedPlayers) activatedPlayer.playSoundForPlayer(Sound.CLICK);
         }
     }
 }
