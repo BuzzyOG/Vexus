@@ -1,8 +1,15 @@
 package pw.vexus.core;
 
+import com.google.gson.*;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import lombok.Getter;
+import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.ModularPlugin;
 import net.cogzmc.core.modular.ModuleMeta;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import pw.vexus.core.announcer.AnnouncerManager;
+import pw.vexus.core.announcer.cmd.AnnouncerCommand;
 import pw.vexus.core.commands.*;
 import pw.vexus.core.econ.EconomyManager;
 import pw.vexus.core.econ.command.BalanceCommand;
@@ -13,29 +20,67 @@ import pw.vexus.core.home.HomeCommand;
 import pw.vexus.core.home.HomeManager;
 import pw.vexus.core.home.SetHomeCommand;
 import pw.vexus.core.shop.ShopManager;
+import pw.vexus.core.specials.EnderBarManager;
 import pw.vexus.core.warp.DelWarpCommand;
 import pw.vexus.core.warp.SetwarpCommand;
 import pw.vexus.core.warp.WarpCommand;
 import pw.vexus.core.warp.WarpManager;
 
 import java.io.File;
+import java.lang.reflect.Type;
 
 @ModuleMeta(name = "VexusCore", description = "Vexus shiz")
 public final class VexusCore extends ModularPlugin {
+    private static final String X_KEY = "x", Y_KEY = "y", Z_KEY = "z", PITCH_KEY = "p", YAW_KEY = "ya", WORLD_KEY = "world";
+
     @Getter private static VexusCore instance;
 
     @Getter private EconomyManager economyManager;
     @Getter private WarpManager warpManager;
     @Getter private HomeManager homeManager;
     @Getter private ShopManager shopManager;
+    @Getter private AnnouncerManager announcerManager;
+    @Getter private WorldGuardPlugin wgPlugin;
+
+    @Getter private static final Gson GSON = new GsonBuilder().registerTypeAdapter(Location.class, new JsonSerializer<Location>() {
+        @Override
+        public JsonElement serialize(Location location, Type type, JsonSerializationContext jsonSerializationContext) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.add(X_KEY, jsonSerializationContext.serialize(location.getX()));
+            jsonObject.add(Y_KEY, jsonSerializationContext.serialize(location.getY()));
+            jsonObject.add(Z_KEY, jsonSerializationContext.serialize(location.getZ()));
+            jsonObject.add(PITCH_KEY, jsonSerializationContext.serialize(location.getYaw()));
+            jsonObject.add(YAW_KEY, jsonSerializationContext.serialize(location.getPitch()));
+            jsonObject.add(WORLD_KEY, jsonSerializationContext.serialize(location.getWorld().getName()));
+            return jsonObject;
+        }
+    }).registerTypeAdapter(Location.class, new JsonDeserializer<Location>() {
+        @Override
+        public Location deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            JsonObject asJsonObject = jsonElement.getAsJsonObject();
+            return new Location(
+                    Bukkit.getWorld(asJsonObject.get(WORLD_KEY).getAsString()),
+                    asJsonObject.get(X_KEY).getAsDouble(),
+                    asJsonObject.get(Y_KEY).getAsDouble(),
+                    asJsonObject.get(Z_KEY).getAsDouble(),
+                    asJsonObject.get(YAW_KEY).getAsFloat(),
+                    asJsonObject.get(PITCH_KEY).getAsFloat()
+            );
+        }
+    }).create();
 
     @Override
     protected void onModuleEnable() throws Exception {
         instance = this;
+
+        Core.getPlayerManager().registerCPlayerConnectionListener(new EnderBarManager.EnderBarLoginObserver());
+
         economyManager = new EconomyManager();
         warpManager = new WarpManager(new File(getDataFolder(), "warps.json"));
         homeManager = new HomeManager();
         shopManager = new ShopManager(new File(getDataFolder(), "shop.csv"));
+        announcerManager = new AnnouncerManager(new File(getDataFolder(), "announcements.json"));
+        wgPlugin = (WorldGuardPlugin) VexusCore.getProvidingPlugin(WorldGuardPlugin.class);
 
         registerCommand(new BalanceCommand());
         registerCommand(new PayCommand());
@@ -70,6 +115,8 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new SetHomeCommand());
         registerCommand(new DelHomeCommand());
 
+        registerCommand(new AnnouncerCommand());
+
         getServer().getPluginManager().registerEvents(new MessageModifier(), this);
 
         new Confirmer.ConfirmerDriver();
@@ -79,6 +126,7 @@ public final class VexusCore extends ModularPlugin {
     protected void onModuleDisable() throws Exception {
         warpManager.save();
         homeManager.save();
+        announcerManager.save();
         instance = null;
     }
 }

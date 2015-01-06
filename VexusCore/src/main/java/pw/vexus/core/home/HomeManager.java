@@ -39,6 +39,7 @@ public final class HomeManager implements CPlayerConnectionListener {
 
     @Override
     public void onPlayerLogin(CPlayer player, InetAddress address) throws CPlayerJoinException {
+        //noinspection unchecked
         Map<String, Map<String, Object>> object = player.getSettingValue("vexusHomes", HashMap.class);
         if (object == null) object = new HashMap<>();
         Map<String, Location> homez = new HashMap<>();
