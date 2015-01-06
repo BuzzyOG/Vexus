@@ -16,3 +16,9 @@ homes:
 motds:
    - "&7Welcome to &aVexus&7!"
    - "&7Come join &aVexus&7!"
+
+spawn-regions:
+   world:
+   - spawn
+
+announce-length: 20

@@ -10,15 +10,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import pw.vexus.core.VexusCore;
 import pw.vexus.core.specials.EnderBarManager;
 import pw.vexus.core.specials.EnderBarPriorities;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public final class Announcer implements Listener {
     private final List<CPlayer> activatedPlayers = new ArrayList<>();
@@ -26,7 +25,8 @@ public final class Announcer implements Listener {
     private int announcementIndex = 0;
 
     public Announcer() {
-        Bukkit.getScheduler().runTaskTimer(VexusCore.getInstance(), new AnnounceBarTask(), 0L, 1L);
+        Bukkit.getScheduler().runTaskTimer(VexusCore.getInstance(), new AnnounceBarTask(), 1L, 1L);
+        VexusCore.getInstance().registerListener(this);
     }
 
     @EventHandler
@@ -49,18 +49,26 @@ public final class Announcer implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        activatedPlayers.remove(Core.getOnlinePlayer(event.getPlayer()));
+    }
+
     private final class AnnounceBarTask implements Runnable {
         private String announcement;
         private int ticksPassed;
-
-        public AnnounceBarTask() {
-            loadAnnouncement();
-            announce();
-        }
+        private boolean started = false;
 
         @Override
         public void run() {
-            int ticksPerAnnounce = VexusCore.getInstance().getAnnouncerManager().getInterval();
+            AnnouncerManager announcerManager = VexusCore.getInstance().getAnnouncerManager();
+            if (announcerManager.getAnnouncements().size() == 0) return;
+            if (!started) {
+                loadAnnouncement();
+                announce();
+                started = true;
+            }
+            int ticksPerAnnounce = announcerManager.getInterval();
             float v = (float) (ticksPerAnnounce - ticksPassed) / (float) ticksPerAnnounce;
             for (CPlayer activatedPlayer : activatedPlayers)
                 EnderBarManager.setStateForID(activatedPlayer, EnderBarPriorities.ANNOUNCER_BAR.getPriority(), announcement, v);
@@ -70,6 +78,7 @@ public final class Announcer implements Listener {
 
         private void nextAnnounce() {
             announcementIndex = (announcementIndex + 1) % VexusCore.getInstance().getAnnouncerManager().getAnnouncements().size();
+            ticksPassed = 0;
             loadAnnouncement();
             announce();
         }

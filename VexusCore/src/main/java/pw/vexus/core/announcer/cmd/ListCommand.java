@@ -14,7 +14,7 @@ public final class ListCommand extends VexusCommand {
     @Override
     protected void handleCommandUnspecific(CommandSender sender, String[] args) throws CommandException {
         ImmutableList<String> announcements = VexusCore.getInstance().getAnnouncerManager().getAnnouncements();
-        sender.sendMessage(VexusCore.getInstance().getFormat("announcement-list-head", new String[]{"<x>", String.valueOf(announcements.size())}));
+        sender.sendMessage(VexusCore.getInstance().getFormat("announcement-list-head", new String[]{"<count>", String.valueOf(announcements.size())}));
         int x = 1;
         for (String s : announcements) {
             sender.sendMessage(VexusCore.getInstance().getFormat("announcement-list-entry", new String[]{"<x>", String.valueOf(x)}, new String[]{"<announcement>", s}));

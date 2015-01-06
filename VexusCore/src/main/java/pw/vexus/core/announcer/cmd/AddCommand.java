@@ -17,6 +17,6 @@ public final class AddCommand extends VexusCommand {
         if (args.length == 0) throw new ArgumentRequirementException("You have not specified an announcement");
         String announcement = Joiner.on(' ').join(args);
         VexusCore.getInstance().getAnnouncerManager().addAnnouncement(announcement);
-        sender.sendMessage(VexusCore.getInstance().getFormat("announcement-added", new String[]{"<announce>", announcement}));
+        sender.sendMessage(VexusCore.getInstance().getFormat("announcement-added", new String[]{"<announcement>", announcement}));
     }
 }

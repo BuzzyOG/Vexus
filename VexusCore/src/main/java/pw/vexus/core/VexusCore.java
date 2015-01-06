@@ -79,8 +79,8 @@ public final class VexusCore extends ModularPlugin {
         warpManager = new WarpManager(new File(getDataFolder(), "warps.json"));
         homeManager = new HomeManager();
         shopManager = new ShopManager(new File(getDataFolder(), "shop.csv"));
-        announcerManager = new AnnouncerManager(new File(getDataFolder(), "announcements.json"));
         wgPlugin = (WorldGuardPlugin) VexusCore.getProvidingPlugin(WorldGuardPlugin.class);
+        announcerManager = new AnnouncerManager(new File(getDataFolder(), "announcements.json"));
 
         registerCommand(new BalanceCommand());
         registerCommand(new PayCommand());

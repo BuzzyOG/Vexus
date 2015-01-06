@@ -27,6 +27,6 @@ public final class RemoveCommand extends VexusCommand {
         i--;
         if (i >= announcements.size() || i < 0) throw new ArgumentRequirementException("You need to specify an announcement that exists!");
         announcerManager.removeAnnouncement(i);
-        sender.sendMessage(VexusCore.getInstance().getFormat("announcement-removed", new String[]{"<x>", String.valueOf(i)}));
+        sender.sendMessage(VexusCore.getInstance().getFormat("announcement-removed", new String[]{"<x>", String.valueOf(i+1)}));
     }
 }

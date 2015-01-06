@@ -32,12 +32,12 @@ public final class AnnouncerManager {
 
     @Getter private int interval;
 
-    public AnnouncerManager(File file) throws FileNotFoundException {
+    public AnnouncerManager(File file) throws IOException {
         this.file = file;
+        if (!this.file.exists()) this.file.createNewFile();
         announcements = new ArrayList<>();
         JsonArray jsonElements = VexusCore.getGSON().fromJson(new FileReader(file), JsonArray.class);
-        for (JsonElement jsonElement : jsonElements) announcements.add(jsonElement.getAsString());
-
+        if (jsonElements != null) for (JsonElement jsonElement : jsonElements) announcements.add(jsonElement.getAsString());
         WorldGuardPlugin wgPlugin = VexusCore.getInstance().getWgPlugin();
         regionsEnderBar = new ArrayList<>();
         ConfigurationSection regionWorlds = VexusCore.getInstance().getConfig().getConfigurationSection(SPAWN_REGIONS_KEY);
@@ -51,7 +51,7 @@ public final class AnnouncerManager {
             }
         }
 
-        this.interval = VexusCore.getInstance().getConfig().getInt(INTERVAL_KEY);
+        this.interval = VexusCore.getInstance().getConfig().getInt(INTERVAL_KEY)*20;
         this.prefix = VexusCore.getInstance().getFormat("prefix", false);
 
         new Announcer();
@@ -79,7 +79,8 @@ public final class AnnouncerManager {
 
     public void setInterval(int interval) {
         VexusCore.getInstance().getConfig().set(INTERVAL_KEY, interval);
-        this.interval = interval;
+        this.interval = interval*20;
+        VexusCore.getInstance().saveConfig();
     }
 
     public void save() throws IOException {
