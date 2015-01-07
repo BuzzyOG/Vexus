@@ -21,13 +21,10 @@ public final class DelHomeCommand extends VexusCommand {
         if (args.length < 1) throw new ArgumentRequirementException("You have not specified a home to delete!");
         final String home = args[0].toLowerCase();
         if (!VexusCore.getInstance().getHomeManager().getHomes(player).containsKey(home)) throw new ArgumentRequirementException("That home does not exist!");
-        Confirmer.confirm("Are you sure you want to delete the home " + home + "?", player, new Confirmer.ConfirmerCallback() {
-            @Override
-            public void call(boolean result, CPlayer player) {
-                if (!result) return;
-                VexusCore.getInstance().getHomeManager().delHome(home, player);
-                player.sendMessage(VexusCore.getInstance().getFormat("deleted-home", new String[]{"<home>", home}));
-            }
+        Confirmer.confirm("Are you sure you want to delete the home " + home + "?", player, (result, player1) -> {
+            if (!result) return;
+            VexusCore.getInstance().getHomeManager().delHome(home, player1);
+            player1.sendMessage(VexusCore.getInstance().getFormat("deleted-home", new String[]{"<home>", home}));
         });
     }
 }

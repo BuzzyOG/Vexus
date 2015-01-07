@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import pw.vexus.core.announcer.AnnouncerManager;
 import pw.vexus.core.announcer.cmd.AnnouncerCommand;
+import pw.vexus.core.chat.ChatListener;
 import pw.vexus.core.commands.*;
 import pw.vexus.core.econ.EconomyManager;
 import pw.vexus.core.econ.command.BalanceCommand;
@@ -116,6 +117,8 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new DelHomeCommand());
 
         registerCommand(new AnnouncerCommand());
+
+        registerListener(new ChatListener());
 
         getServer().getPluginManager().registerEvents(new MessageModifier(), this);
 

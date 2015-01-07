@@ -20,12 +20,13 @@ import pw.vexus.core.specials.EnderBarPriorities;
 import java.util.*;
 
 public final class Announcer implements Listener {
+    private static final int UPDATE_FREQUENCY = 10;
     private final List<CPlayer> activatedPlayers = new ArrayList<>();
 
     private int announcementIndex = 0;
 
     public Announcer() {
-        Bukkit.getScheduler().runTaskTimer(VexusCore.getInstance(), new AnnounceBarTask(), 1L, 1L);
+        Bukkit.getScheduler().runTaskTimer(VexusCore.getInstance(), new AnnounceBarTask(), 1L, UPDATE_FREQUENCY);
         VexusCore.getInstance().registerListener(this);
     }
 
@@ -72,7 +73,7 @@ public final class Announcer implements Listener {
             float v = (float) (ticksPerAnnounce - ticksPassed) / (float) ticksPerAnnounce;
             for (CPlayer activatedPlayer : activatedPlayers)
                 EnderBarManager.setStateForID(activatedPlayer, EnderBarPriorities.ANNOUNCER_BAR.getPriority(), announcement, v);
-            ticksPassed++;
+            ticksPassed += UPDATE_FREQUENCY;
             if (ticksPassed >= ticksPerAnnounce) nextAnnounce();
         }
 

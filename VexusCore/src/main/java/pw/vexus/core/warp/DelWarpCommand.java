@@ -24,13 +24,10 @@ public final class DelWarpCommand extends VexusCommand {
         final WarpManager warpManager = VexusCore.getInstance().getWarpManager();
         ImmutableList<String> warps = warpManager.getWarps();
         if (!warps.contains(arg)) throw new ArgumentRequirementException("This warp does not exist!");
-        Confirmer.confirm("Are you sure you want to delete the warp " + arg, player, new Confirmer.ConfirmerCallback() {
-            @Override
-            public void call(boolean result, CPlayer player) {
-                if (!result) return;
-                warpManager.delWarp(arg);
-                player.sendMessage(VexusCore.getInstance().getFormat("del-warp", new String[]{"<warp>", arg}));
-            }
+        Confirmer.confirm("Are you sure you want to delete the warp " + arg, player, (result, player1) -> {
+            if (!result) return;
+            warpManager.delWarp(arg);
+            player1.sendMessage(VexusCore.getInstance().getFormat("del-warp", new String[]{"<warp>", arg}));
         });
     }
 }
