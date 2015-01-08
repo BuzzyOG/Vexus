@@ -28,6 +28,7 @@ public final class PvPTagManager implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerPvPEngage(EntityDamageByEntityEvent event) {
+        if (event.isCancelled()) return;
         if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
         CPlayer[] taggables = new CPlayer[]{Core.getOnlinePlayer((Player) event.getDamager()), Core.getOnlinePlayer((Player) event.getEntity())};
         for (CPlayer taggable : taggables) {
@@ -64,6 +65,7 @@ public final class PvPTagManager implements Listener {
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPvP(EntityDamageByEntityEvent event) {
+            if (event.isCancelled()) return;
             Player bukkitPlayer = target.getBukkitPlayer();
             if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
             if (!(event.getDamager().equals(bukkitPlayer) || event.getEntity().equals(bukkitPlayer))) return;

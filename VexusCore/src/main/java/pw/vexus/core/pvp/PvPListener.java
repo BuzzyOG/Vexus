@@ -19,6 +19,7 @@ import java.util.Arrays;
 public final class PvPListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
+        if (event.isCancelled()) return;
         if (!(event.getDamager() instanceof Player) || !(event.getEntity() instanceof Player)) return;
         Player player = (Player) event.getEntity();
         Hologram hologram = HologramsAPI.createHologram(VexusCore.getInstance(), player.getLocation().clone().add(0, 1, 0));
