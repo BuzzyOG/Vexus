@@ -15,6 +15,7 @@ import pw.vexus.core.VexusCore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CommandMeta(description = "Warps you to a specified warp")
 @CommandPermission("vexus.warp")
@@ -41,10 +42,6 @@ public final class WarpCommand extends VexusCommand {
         if (args.length > 1) return super.handleTabComplete(sender, command, alias, args);
         ImmutableList<String> warps = VexusCore.getInstance().getWarpManager().getWarps();
         if (args.length == 0) return warps;
-        List<String> strings = new ArrayList<>();
-        for (String warp : warps) {
-            if (warp.toLowerCase().startsWith(args[0].toLowerCase())) strings.add(warp);
-        }
-        return strings;
+        return warps.stream().filter(warp -> warp.toLowerCase().startsWith(args[0].toLowerCase())).collect(Collectors.toList());
     }
 }

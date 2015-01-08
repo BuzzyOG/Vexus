@@ -8,6 +8,8 @@ import net.cogzmc.core.player.CPlayer;
 import pw.vexus.core.TeleMan;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
+import pw.vexus.core.pvp.PvPTagException;
+
 @CommandPermission("vexus.tpa")
 public final class TpaCommand extends VexusCommand {
     public TpaCommand() {
@@ -19,6 +21,7 @@ public final class TpaCommand extends VexusCommand {
         if (args.length < 1) throw new ArgumentRequirementException("You have not specified a player!");
         final CPlayer target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[0]);
         if (target == null || !VanishCommand.canSee(target, player)) throw new ArgumentRequirementException("The player you have specified does not exist!");
+
         Confirmer.confirm("Do you want to allow " + player.getDisplayName() + " to teleport to you?", target, (result, pl) -> {
             if (!player.isOnline()) return;
             if (!result) {

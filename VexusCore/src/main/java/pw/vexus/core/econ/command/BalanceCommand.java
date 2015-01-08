@@ -27,7 +27,7 @@ public final class BalanceCommand extends VexusCommand {
         EconomyManager economyManager = instance.getEconomyManager();
         sender.sendMessage(instance.getFormat("balance-response",
                 new String[]{"<target>", target.getDisplayName()},
-                new String[]{"<balance>", String.valueOf(economyManager.getBalance(target))})
+                new String[]{"<balance>", EconomyManager.format(economyManager.getBalance(target))})
         );
     }
 }

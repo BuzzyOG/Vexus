@@ -8,6 +8,7 @@ import net.cogzmc.core.player.CPlayer;
 import pw.vexus.core.TeleMan;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
+import pw.vexus.core.pvp.PvPTagException;
 
 @CommandPermission("vexus.tpahere")
 public final class TpahereCommand extends VexusCommand {

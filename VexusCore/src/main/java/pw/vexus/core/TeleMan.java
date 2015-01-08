@@ -38,6 +38,7 @@ public final class TeleMan {
     }
 
     public static void teleportPlayer(CPlayer player, @NonNull Location target, Integer time) throws TeleportException {
+        if (VexusCore.getInstance().getPvpTagManager().isPlayerTagged(player)) throw new TeleportException("You cannot teleport while you are PvP tagged!");
         if (time == 0) doTeleport(player, target);
         else {
             if (player.getBukkitPlayer().getFallDistance() > 2.0f) throw new TeleportException("You cannot teleport while falling this quickly!");

@@ -41,6 +41,21 @@ public enum ChatFilter {
                 lastMessages.remove(Core.getOnlinePlayer(event.getPlayer()));
             }
         }
+    }),
+    WORD_LENGTH((player, message) -> {
+        message = message.trim();
+        String[] split = message.split(" ");
+        if (split.length < 2 && split[0].length() < 3) {
+            for (String smallWord : ChatConstants.SMALL_WORDS) {
+                if (message.equalsIgnoreCase(smallWord)) return;
+            }
+            throw new ChatFilterException("That message is too short!");
+        }
+        int count = 0;
+        for (String s : split) {
+            if (s.length() == 1) count++;
+            if (count > 3) throw new ChatFilterException("You have too many small words!");
+        }
     });
 
     private final FilterOperator operator;
@@ -50,6 +65,7 @@ public enum ChatFilter {
     }
 
     public static void runFilters(CPlayer player, String message) throws ChatFilterException {
+        if (player.hasPermission("vexus.bypassfilters")) return;
         for (ChatFilter chatFilter : ChatFilter.values()) chatFilter.operator.operate(player, message);
     }
 

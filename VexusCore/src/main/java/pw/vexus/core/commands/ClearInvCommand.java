@@ -3,6 +3,7 @@ package pw.vexus.core.commands;
 import net.cogzmc.core.Core;
 import net.cogzmc.core.modular.command.*;
 import net.cogzmc.core.player.CPlayer;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
@@ -23,7 +24,19 @@ public final class ClearInvCommand extends VexusCommand {
 
         if (target == null) throw new ArgumentRequirementException("That player you specified is invalid!");
         Player tPlayer = target.getBukkitPlayer();
-        tPlayer.getInventory().clear();
-        player.sendMessage(VexusCore.getInstance().getFormat("inventory-cleared", new String[]{"<target>", target.getName()}));
+
+        String format = VexusCore.getInstance().getFormat("inventory-cleared", new String[]{"<target>", target.getName()});
+        if (target != player || tPlayer.getGameMode() != GameMode.SURVIVAL) {
+            tPlayer.getInventory().clear();
+            player.sendMessage(format);
+            return;
+        }
+
+        Confirmer.confirm("Are you sure you want to clear your inventory? ", player, (result, cPlayer) -> {
+            if (result){
+                tPlayer.getInventory().clear();
+                player.sendMessage(format);
+            }
+        });
     }
 }

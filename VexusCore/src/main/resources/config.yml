@@ -24,3 +24,4 @@ spawn-regions:
    - spawn
 
 announce-length: 20
+pvp-tag-time: 15

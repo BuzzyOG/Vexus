@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import pw.vexus.core.CooldownManager;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
+import pw.vexus.core.pvp.PvPTagException;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +28,8 @@ public final class HealCommand extends VexusCommand {
 
         if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");
         CooldownManager.testForPermissibleCooldown("heal", player);
+
+        if (target == player && VexusCore.getInstance().getPvpTagManager().isPlayerTagged(player)) throw new PvPTagException();
 
         Player tPlayer = target.getBukkitPlayer();
         tPlayer.setHealth(tPlayer.getMaxHealth());
