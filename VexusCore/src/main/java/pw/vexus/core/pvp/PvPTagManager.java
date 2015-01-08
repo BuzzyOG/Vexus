@@ -6,12 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitTask;
 import pw.vexus.core.VexusCore;
 
@@ -26,7 +26,7 @@ public final class PvPTagManager implements Listener {
         tagTime = VexusCore.getInstance().getConfig().getInt("pvp-tag-time")*20;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerPvPEngage(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
         CPlayer[] taggables = new CPlayer[]{Core.getOnlinePlayer((Player) event.getDamager()), Core.getOnlinePlayer((Player) event.getEntity())};
@@ -62,7 +62,7 @@ public final class PvPTagManager implements Listener {
             scheduleTag();
         }
 
-        @EventHandler
+        @EventHandler(priority = EventPriority.MONITOR)
         public void onPvP(EntityDamageByEntityEvent event) {
             Player bukkitPlayer = target.getBukkitPlayer();
             if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
