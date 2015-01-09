@@ -78,16 +78,17 @@ public final class TeleMan {
                 cancel();
                 return;
             }
+            int i = time - secondsPassed;
+            String s = String.valueOf(i);
+            EnderBarManager.setStateForID(player, EnderBarPriorities.TELEPORT.getPriority(), VexusCore.getInstance().getFormat("teleport-ender-bar", false, new String[]{"<remain>", s}), (float)Math.max((float)i/time, 0.01));
             if (secondsPassed == time) {
                 doTeleport(player, target);
                 task.cancel();
                 clean();
                 return;
             }
-            int i = time - secondsPassed;
-            String s = String.valueOf(i);
             player.sendMessage(VexusCore.getInstance().getFormat("teleport-wait", new String[]{"<remain>", s}));
-            EnderBarManager.setStateForID(player, EnderBarPriorities.TELEPORT.getPriority(), VexusCore.getInstance().getFormat("teleport-ender-bar", false, new String[]{"<remain>", s}), (float)i/time);
+
             secondsPassed++;
         }
 
