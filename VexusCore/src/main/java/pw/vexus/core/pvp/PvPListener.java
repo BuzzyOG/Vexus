@@ -19,10 +19,13 @@ import java.util.Arrays;
 public final class PvPListener implements Listener {
     private boolean failed = false;
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
+        VexusCore.getInstance().logMessage("1");
         if (event.isCancelled()) return;
-        if (!(event.getDamager() instanceof Player) || !(event.getEntity() instanceof Player)) return;
+        VexusCore.getInstance().logMessage("2");
+        if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
+        VexusCore.getInstance().logMessage("3");
         Player player = (Player) event.getEntity();
         Hologram hologram = HologramsAPI.createHologram(VexusCore.getInstance(), player.getLocation().clone().add(0, 1, 0));
         double damage;
@@ -42,6 +45,7 @@ public final class PvPListener implements Listener {
         visibilityManager.showTo((Player) event.getDamager());
         visibilityManager.showTo(player);
         Bukkit.getScheduler().runTaskLater(VexusCore.getInstance(), hologram::delete, 60L);
+        VexusCore.getInstance().logMessage("4");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

@@ -27,9 +27,8 @@ public final class HealCommand extends VexusCommand {
         else target = Core.getPlayerManager().getFirstOnlineCPlayerForStartOfName(args[0]);
 
         if (target == null) throw new ArgumentRequirementException("The player you specified is invalid!");
-        CooldownManager.testForPermissibleCooldown("heal", player);
-
         if (target == player && VexusCore.getInstance().getPvpTagManager().isPlayerTagged(player)) throw new PvPTagException();
+        CooldownManager.testForPermissibleCooldown("heal", player);
 
         Player tPlayer = target.getBukkitPlayer();
         tPlayer.setHealth(tPlayer.getMaxHealth());

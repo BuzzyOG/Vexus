@@ -1,5 +1,5 @@
 name: VexusCore
 version: 1.0
 authors: [Twister915]
-depend: [Core, WorldGuard]
+depend: [Core, WorldGuard, Factions]
 main: pw.vexus.core.VexusCore

@@ -21,18 +21,19 @@ import pw.vexus.core.home.DelHomeCommand;
 import pw.vexus.core.home.HomeCommand;
 import pw.vexus.core.home.HomeManager;
 import pw.vexus.core.home.SetHomeCommand;
+import pw.vexus.core.pvp.EngageEnderBar;
 import pw.vexus.core.pvp.FoodCorrection;
 import pw.vexus.core.pvp.PvPListener;
 import pw.vexus.core.pvp.PvPTagManager;
 import pw.vexus.core.shop.ShopManager;
 import pw.vexus.core.specials.EnderBarManager;
+import pw.vexus.core.specials.FactionsFeature;
 import pw.vexus.core.warp.DelWarpCommand;
 import pw.vexus.core.warp.SetwarpCommand;
 import pw.vexus.core.warp.WarpCommand;
 import pw.vexus.core.warp.WarpManager;
 
 import java.io.File;
-import java.lang.reflect.Type;
 
 @ModuleMeta(name = "VexusCore", description = "Vexus shiz")
 public final class VexusCore extends ModularPlugin {
@@ -125,6 +126,8 @@ public final class VexusCore extends ModularPlugin {
         registerListener(new ChatFeaturesListener());
         registerListener(new PvPListener());
         registerListener(new FoodCorrection());
+        registerListener(new EngageEnderBar());
+        registerListener(new FactionsFeature());
 
         new Confirmer.ConfirmerDriver();
     }

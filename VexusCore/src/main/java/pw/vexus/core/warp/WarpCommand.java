@@ -1,6 +1,6 @@
 package pw.vexus.core.warp;
 
-import com.google.api.client.repackaged.com.google.common.base.Joiner;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import net.cogzmc.core.modular.command.ArgumentRequirementException;
 import net.cogzmc.core.modular.command.CommandException;

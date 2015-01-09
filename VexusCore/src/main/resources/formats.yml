@@ -63,3 +63,5 @@ pvp-tag-started: "&7You have been &aPvP tagged&7. You should neither quit nor at
 rules-title: "&7These are the rules of &aVexus:"
 rules-message: " &c<num>&7. <rule>"
 no-rules: "&cApparently, there are no rules! Anarchy!!!"
+pvp-ender-bar: "&7PvP'n: &a<name> &8|&7 Health: &a<health>&8 | &7Holding:&a <holding>"
+region-info: "<name> &8 |&a <desc>"
