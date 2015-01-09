@@ -60,5 +60,6 @@ tombstone:
    rip: "&7Here lies &c<player>&7."
 pvp-tag-ended: "&7Your PvP tag has been &cremoved&7. You are now free to teleport and quit!"
 pvp-tag-started: "&7You have been &aPvP tagged&7. You should neither quit nor attempt to teleport!"
-rules-title: "&7These are the rules of the server:"
-rules-message: "&7
+rules-title: "&7These are the rules of &aVexus:"
+rules-message: " &c<num>&7. <rule>"
+no-rules: "&cApparently, there are no rules! Anarchy!!!"

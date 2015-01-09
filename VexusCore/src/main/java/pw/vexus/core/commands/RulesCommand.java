@@ -1,6 +1,5 @@
 package pw.vexus.core.commands;
 
-import com.google.api.client.repackaged.com.google.common.base.Joiner;
 import net.cogzmc.core.modular.command.CommandException;
 import net.cogzmc.core.modular.command.CommandMeta;
 import net.cogzmc.core.modular.command.CommandPermission;
@@ -9,10 +8,7 @@ import org.bukkit.ChatColor;
 import pw.vexus.core.VexusCommand;
 import pw.vexus.core.VexusCore;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,8 +17,9 @@ import java.util.stream.Collectors;
 public final class RulesCommand extends VexusCommand {
     private final List<String> rules;
 
-    public RulesCommand(File file) throws FileNotFoundException {
+    public RulesCommand(File file) throws IOException {
         super("rules");
+        if (!file.exists()) file.createNewFile();
         rules = new BufferedReader(new FileReader(file))
                 .lines()
                 .map((string) -> ChatColor.translateAlternateColorCodes('&', string))
@@ -31,8 +28,15 @@ public final class RulesCommand extends VexusCommand {
 
     @Override
     protected void handleCommand(CPlayer player, String[] args) throws CommandException {
+        if (rules.size() == 0) {
+            player.sendMessage(VexusCore.getInstance().getFormat("no-rules"));
+            return;
+        }
         player.sendMessage(VexusCore.getInstance().getFormat("rules-title"));
-        String rulesString = Joiner.on("/t").join(rules);
-        player.sendMessage(VexusCore.getInstance().getFormat("rules-message", new String[]{"<rules>", rulesString}));
+        int x = 0;
+        for (String rule : rules) {
+            x++;
+            player.sendMessage(VexusCore.getInstance().getFormat("rules-message", new String[]{"<rule>", rule}, new String[]{"<num>", String.format("%02d", x)}));
+        }
     }
 }

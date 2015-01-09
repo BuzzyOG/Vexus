@@ -83,6 +83,8 @@ public final class VexusCore extends ModularPlugin {
         announcerManager = new AnnouncerManager(new File(getDataFolder(), "announcements.json"));
         pvpTagManager = new PvPTagManager();
 
+        registerCommand(new RulesCommand(new File(getDataFolder(), "rule.txt")));
+
         registerCommand(new BalanceCommand());
         registerCommand(new PayCommand());
         registerCommand(new EconCommand());
