@@ -16,6 +16,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
+import pw.vexus.core.specials.EnderBarManager;
+import pw.vexus.core.specials.EnderBarPriorities;
 
 public final class TeleMan {
     public static void teleportPlayer(CPlayer player, Location newLocation) throws TeleportException {
@@ -36,6 +38,7 @@ public final class TeleMan {
     }
 
     public static void teleportPlayer(CPlayer player, @NonNull Location target, Integer time) throws TeleportException {
+        if (VexusCore.getInstance().getPvpTagManager().isPlayerTagged(player)) throw new TeleportException("You cannot teleport while you are PvP tagged!");
         if (time == 0) doTeleport(player, target);
         else {
             if (player.getBukkitPlayer().getFallDistance() > 2.0f) throw new TeleportException("You cannot teleport while falling this quickly!");
@@ -69,7 +72,6 @@ public final class TeleMan {
             VexusCore.getInstance().registerListener(this);
         }
 
-
         @Override
         public void run() {
             if (player.getBukkitPlayer().getLocation().distanceSquared(initialLocation) >= 4) {
@@ -82,7 +84,10 @@ public final class TeleMan {
                 clean();
                 return;
             }
-            player.sendMessage(VexusCore.getInstance().getFormat("teleport-wait", new String[]{"<remain>", String.valueOf(time-secondsPassed)}));
+            int i = time - secondsPassed;
+            String s = String.valueOf(i);
+            player.sendMessage(VexusCore.getInstance().getFormat("teleport-wait", new String[]{"<remain>", s}));
+            EnderBarManager.setStateForID(player, EnderBarPriorities.TELEPORT.getPriority(), VexusCore.getInstance().getFormat("teleport-ender-bar", false, new String[]{"<remain>", s}), (float)i/time);
             secondsPassed++;
         }
 
@@ -95,11 +100,13 @@ public final class TeleMan {
 
         private void clean() {
             HandlerList.unregisterAll(this);
+            EnderBarManager.clearId(player, EnderBarPriorities.TELEPORT.getPriority());
         }
 
         private void cancel() {
             task.cancel();
             if (player.isOnline()) player.sendMessage(VexusCore.getInstance().getFormat("teleport-cancel"));
+            clean();
         }
     }
 

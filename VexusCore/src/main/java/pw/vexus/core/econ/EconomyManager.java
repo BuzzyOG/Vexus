@@ -38,4 +38,8 @@ public final class EconomyManager {
         player.removeSettingValue("econ-balance");
         player.saveIntoDatabase();
     }
+
+    public static String format(Double amount) {
+        return String.format("$%.02f", amount);
+    }
 }

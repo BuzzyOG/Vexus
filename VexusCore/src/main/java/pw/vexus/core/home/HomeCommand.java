@@ -17,6 +17,7 @@ import pw.vexus.core.VexusCore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @CommandMeta(description = "Teleports you to your home!")
 @CommandPermission("vexus.home")
@@ -42,10 +43,6 @@ public final class HomeCommand extends VexusCommand {
         if (args.length != 1 || !(sender instanceof Player)) return super.handleTabComplete(sender, command, alias, args);
         Map<String, Location> homes = VexusCore.getInstance().getHomeManager().getHomes(Core.getOnlinePlayer((Player) sender));
         String arg = args[0].toLowerCase();
-        List<String> matches = new ArrayList<>();
-        for (String s : homes.keySet()) {
-            if (s.toLowerCase().startsWith(arg)) matches.add(s);
-        }
-        return matches;
+        return homes.keySet().stream().filter(s -> s.toLowerCase().startsWith(arg)).collect(Collectors.toList());
     }
 }

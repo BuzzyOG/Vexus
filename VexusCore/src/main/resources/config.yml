@@ -6,9 +6,11 @@ teleportPermissions: #Give people the permission vexus.teletime.{name}
 
 cooldowns:
    heal:
-     default: 3600 #one hour in millis
+     default: 3600 #one hour in seconds
    feed:
-     default: 3600 #one hour in millis
+     default: 3600 #one hour in seconds
+   chatspam:
+     default: 1
 
 default-homes: 1
 homes:
@@ -22,3 +24,4 @@ spawn-regions:
    - spawn
 
 announce-length: 20
+pvp-tag-time: 15

@@ -73,8 +73,12 @@ public final class HomeManager implements CPlayerConnectionListener {
         if (player.hasPermission("vexus.homes.unlimited") || player.getBukkitPlayer().isOp()) return -1;
         FileConfiguration config = VexusCore.getInstance().getConfig();
         ConfigurationSection homes1 = config.getConfigurationSection("homes");
-        for (String s : homes1.getKeys(false)) if (player.hasPermission("vexus.homes." + s)) return homes1.getInt(s);
-        return config.getInt("default-homes", 1);
+        int max = config.getInt("default-homes", 1);
+        for (String s : homes1.getKeys(false)) {
+            int anInt = homes1.getInt(s);
+            if (player.hasPermission("vexus.homes." + s) && anInt > max) max = anInt;
+        }
+        return max;
     }
 
     public void save() {

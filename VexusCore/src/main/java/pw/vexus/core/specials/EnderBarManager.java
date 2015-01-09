@@ -62,7 +62,7 @@ public final class EnderBarManager {
     public static class EnderBarLoginObserver implements CPlayerConnectionListener {
         @Override
         public void onPlayerLogin(CPlayer player, InetAddress address) throws CPlayerJoinException {
-            prioritizedBarMessages.put(player, new HashMap<Integer, EnderBarItem>());
+            prioritizedBarMessages.put(player, new HashMap<>());
         }
 
         @Override
