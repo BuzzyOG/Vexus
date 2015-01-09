@@ -26,7 +26,7 @@ public final class PvPTagManager implements Listener {
         tagTime = VexusCore.getInstance().getConfig().getInt("pvp-tag-time")*20;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerPvPEngage(EntityDamageByEntityEvent event) {
         if (event.isCancelled()) return;
         if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
@@ -46,11 +46,13 @@ public final class PvPTagManager implements Listener {
         tags.remove(player);
         player.playSoundForPlayer(Sound.NOTE_PIANO);
         player.sendMessage(VexusCore.getInstance().getFormat("pvp-tag-ended"));
+        Bukkit.getPluginManager().callEvent(new PvPUntagEvent(player));
     }
 
     private void pvpTagStarted(CPlayer player) {
         player.playSoundForPlayer(Sound.NOTE_BASS);
         player.sendMessage(VexusCore.getInstance().getFormat("pvp-tag-started"));
+        Bukkit.getPluginManager().callEvent(new PvPTagEvent(player));
     }
 
     public final class PvPTag implements Listener, Runnable {

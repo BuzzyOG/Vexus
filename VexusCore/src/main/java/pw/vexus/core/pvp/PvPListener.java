@@ -17,13 +17,24 @@ import pw.vexus.core.VexusCore;
 import java.util.Arrays;
 
 public final class PvPListener implements Listener {
+    private boolean failed = false;
+
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
         if (event.isCancelled()) return;
         if (!(event.getDamager() instanceof Player) || !(event.getEntity() instanceof Player)) return;
         Player player = (Player) event.getEntity();
         Hologram hologram = HologramsAPI.createHologram(VexusCore.getInstance(), player.getLocation().clone().add(0, 1, 0));
-        char[] hearts = new char[(int) Math.round(event.getDamage()/2)];
+        double damage;
+        if (!failed) {
+            try {
+                damage = (double) event.getClass().getMethod("getFinalDamage").invoke(event);
+            } catch (Exception e) {
+                if (e instanceof NoSuchMethodException) failed = true;
+                damage = event.getDamage();
+            }
+        } else damage = event.getDamage();
+        char[] hearts = new char[(int) Math.round(damage/2)];
         Arrays.fill(hearts, '♥');
         hologram.insertTextLine(0, ChatColor.DARK_RED.toString() + "-" + new String(hearts));
         VisibilityManager visibilityManager = hologram.getVisibilityManager();

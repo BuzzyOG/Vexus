@@ -21,6 +21,7 @@ import pw.vexus.core.home.DelHomeCommand;
 import pw.vexus.core.home.HomeCommand;
 import pw.vexus.core.home.HomeManager;
 import pw.vexus.core.home.SetHomeCommand;
+import pw.vexus.core.pvp.FoodCorrection;
 import pw.vexus.core.pvp.PvPListener;
 import pw.vexus.core.pvp.PvPTagManager;
 import pw.vexus.core.shop.ShopManager;
@@ -121,6 +122,7 @@ public final class VexusCore extends ModularPlugin {
         registerListener(new MessageModifier());
         registerListener(new ChatFeaturesListener());
         registerListener(new PvPListener());
+        registerListener(new FoodCorrection());
 
         new Confirmer.ConfirmerDriver();
     }

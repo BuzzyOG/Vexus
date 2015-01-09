@@ -5,7 +5,7 @@ import net.cogzmc.core.modular.command.FriendlyException;
 import net.cogzmc.core.modular.command.ModuleCommand;
 import org.bukkit.ChatColor;
 
-public class PvPTagException extends CommandException implements FriendlyException {
+public final class PvPTagException extends CommandException implements FriendlyException {
     public PvPTagException() {
         super("You are currently PvP tagged and cannot do that!");
     }

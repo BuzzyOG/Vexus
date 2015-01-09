@@ -47,14 +47,9 @@ public enum ChatFilter {
         String[] split = message.split(" ");
         if (split.length < 2 && split[0].length() < 3) {
             for (String smallWord : ChatConstants.SMALL_WORDS) {
-                if (message.equalsIgnoreCase(smallWord)) return;
+                if (message.equalsIgnoreCase(smallWord) || message.startsWith(":")) return;
             }
             throw new ChatFilterException("That message is too short!");
-        }
-        int count = 0;
-        for (String s : split) {
-            if (s.length() == 1) count++;
-            if (count > 3) throw new ChatFilterException("You have too many small words!");
         }
     });
 
