@@ -11,8 +11,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public final class MessageModifier implements Listener {
 
@@ -44,4 +43,5 @@ public final class MessageModifier implements Listener {
         if (motds.size() == 0) return;
         event.setMotd(ChatColor.translateAlternateColorCodes('&', motds.get(Core.getRandom().nextInt(motds.size()))));
     }
+
 }

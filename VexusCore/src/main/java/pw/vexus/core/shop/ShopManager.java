@@ -7,7 +7,6 @@ import pw.vexus.core.VexusCore;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public final class ShopManager {
     private final Map<Material, ShopItem> items = new HashMap<>();
