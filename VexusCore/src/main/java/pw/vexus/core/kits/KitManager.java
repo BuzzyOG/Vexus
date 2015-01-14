@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -52,7 +53,7 @@ public final class KitManager {
             if (dataValue != null) itemStack.setDurability(dataValue.byteValue());
             if (quantity != null) itemStack.setAmount(quantity);
             ItemMeta itemMeta = itemStack.getItemMeta();
-            if (title != null) itemMeta.setDisplayName(title);
+            if (title != null) itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', title));
             if (lore != null) itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
             if (enchants != null) {
