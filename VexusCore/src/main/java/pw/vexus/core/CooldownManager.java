@@ -26,9 +26,13 @@ public final class CooldownManager {
     }
 
     public static void testForCooldown(String key, CPlayer player, Long length) throws CooldownUnexpiredException {
+        testForCooldown(key, player, length, true);
+    }
+
+    public static void testForCooldown(String key, CPlayer player, Long length, boolean count) throws CooldownUnexpiredException {
         String s = "vexusCooldown" + key;
         Long settingValue = player.getSettingValue(s, Long.class);
         if (settingValue != null && settingValue+(length*1000) > System.currentTimeMillis()) throw new CooldownUnexpiredException(settingValue+(length*1000)-System.currentTimeMillis(), TimeUnit.MILLISECONDS);
-        player.storeSettingValue(s, System.currentTimeMillis());
+        if (count) player.storeSettingValue(s, System.currentTimeMillis());
     }
 }

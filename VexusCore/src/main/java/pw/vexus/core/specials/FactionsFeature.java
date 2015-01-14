@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pw.vexus.core.TeleMan;
 import pw.vexus.core.VexusCore;
+import pw.vexus.core.home.SetHomeEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +57,6 @@ public final class FactionsFeature implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onHomeTeleport(EventFactionsHomeTeleport event) {
-        VexusCore.getInstance().logMessage("FACTION TELEPORT");
         event.setCancelled(true);
         Location location = event.getMSender().getFaction().getHome().asBukkitLocation();
         try {
@@ -64,5 +64,14 @@ public final class FactionsFeature implements Listener {
         } catch (TeleMan.TeleportException e) {
             event.getMSender().sendMessage(VexusCore.getInstance().getFormat("error", new String[]{"<error>", e.getMessage()}));
         }
+    }
+
+    @EventHandler
+    public void onSethome(SetHomeEvent event) {
+        Faction factionAt = BoardColl.get().getFactionAt(PS.valueOf(event.getLocation()));
+        MPlayer mPlayer = MPlayer.get(event.getPlayer().getBukkitPlayer());
+        if (!factionAt.isNormal() || mPlayer.getFaction().equals(factionAt)) return;
+        event.setCancelled(true);
+        event.getPlayer().sendMessage(VexusCore.getInstance().getFormat("error", new String[]{"<error>", "You cannot set home in this area!"}));
     }
 }

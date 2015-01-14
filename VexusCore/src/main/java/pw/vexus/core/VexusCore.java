@@ -21,6 +21,8 @@ import pw.vexus.core.home.DelHomeCommand;
 import pw.vexus.core.home.HomeCommand;
 import pw.vexus.core.home.HomeManager;
 import pw.vexus.core.home.SetHomeCommand;
+import pw.vexus.core.kits.KitCommand;
+import pw.vexus.core.kits.KitManager;
 import pw.vexus.core.pvp.EngageEnderBar;
 import pw.vexus.core.pvp.FoodCorrection;
 import pw.vexus.core.pvp.PvPListener;
@@ -48,6 +50,7 @@ public final class VexusCore extends ModularPlugin {
     @Getter private AnnouncerManager announcerManager;
     @Getter private PvPTagManager pvpTagManager;
     @Getter private WorldGuardPlugin wgPlugin;
+    @Getter private KitManager kitManager;
 
     @Getter private static final Gson GSON = new GsonBuilder().registerTypeAdapter(Location.class, (JsonSerializer<Location>) (location, type, jsonSerializationContext) -> {
         JsonObject jsonObject = new JsonObject();
@@ -83,6 +86,7 @@ public final class VexusCore extends ModularPlugin {
         wgPlugin = (WorldGuardPlugin) VexusCore.getProvidingPlugin(WorldGuardPlugin.class);
         announcerManager = new AnnouncerManager(new File(getDataFolder(), "announcements.json"));
         pvpTagManager = new PvPTagManager();
+        kitManager = new KitManager(new File(getDataFolder(), "kits"));
 
         registerCommand(new RulesCommand(new File(getDataFolder(), "rule.txt")));
 
@@ -120,6 +124,8 @@ public final class VexusCore extends ModularPlugin {
         registerCommand(new DelHomeCommand());
 
         registerCommand(new AnnouncerCommand());
+
+        registerCommand(new KitCommand());
 
         registerListener(new ChatListener());
         registerListener(new MessageModifier());
