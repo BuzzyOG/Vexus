@@ -28,6 +28,7 @@ import pw.vexus.core.pvp.FoodCorrection;
 import pw.vexus.core.pvp.PvPListener;
 import pw.vexus.core.pvp.PvPTagManager;
 import pw.vexus.core.shop.ShopManager;
+import pw.vexus.core.shop.ShopVillagerManager;
 import pw.vexus.core.specials.EnderBarManager;
 import pw.vexus.core.specials.FactionsFeature;
 import pw.vexus.core.warp.DelWarpCommand;
@@ -51,6 +52,7 @@ public final class VexusCore extends ModularPlugin {
     @Getter private PvPTagManager pvpTagManager;
     @Getter private WorldGuardPlugin wgPlugin;
     @Getter private KitManager kitManager;
+    @Getter private ShopVillagerManager shopVillagerManager;
 
     @Getter private static final Gson GSON = new GsonBuilder().registerTypeAdapter(Location.class, (JsonSerializer<Location>) (location, type, jsonSerializationContext) -> {
         JsonObject jsonObject = new JsonObject();
@@ -87,6 +89,7 @@ public final class VexusCore extends ModularPlugin {
         announcerManager = new AnnouncerManager(new File(getDataFolder(), "announcements.json"));
         pvpTagManager = new PvPTagManager();
         kitManager = new KitManager(new File(getDataFolder(), "kits"));
+        shopVillagerManager = new ShopVillagerManager(new File(getDataFolder(), "shop_villagers.json"));
 
         registerCommand(new RulesCommand(new File(getDataFolder(), "rule.txt")));
 
@@ -143,6 +146,9 @@ public final class VexusCore extends ModularPlugin {
         warpManager.save();
         homeManager.save();
         announcerManager.save();
+        shopVillagerManager.save();
+
+        wgPlugin = null;
         instance = null;
     }
 }
