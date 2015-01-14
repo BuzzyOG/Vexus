@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import pw.vexus.core.VexusCore;
+import pw.vexus.core.commands.Confirmer;
 import pw.vexus.core.econ.EconomyManager;
 
 import java.io.File;
@@ -91,13 +92,14 @@ public final class ShopVillagerManager {
                         int size = 9;
                         //interface 2
                         InventoryGraphicalInterface quantityInterface = new InventoryGraphicalInterface(size, instance.getFormat("shop-quantity-select", false, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<action>", storeAction.name().toLowerCase()}));
-                        for (int x = 0; x < size-1; x++) { //for each of the powers of 2 up to 8
+                        for (int x = 1; x < size; x++) { //for each of the powers of 2 up to 8
                             int i = ((int) Math.pow(2, x));
                             ItemStack stack = new ItemStack(itemFor.getItem(), i);
                             stack.setDurability((short) itemFor.getDataValue());
                             ItemMeta itemMeta1 = stack.getItemMeta();
                             double price = (storeAction == StoreAction.BUY ? itemFor.getBuy() : itemFor.getSell()) * i;
-                            itemMeta1.setDisplayName(instance.getFormat("shop-quantity-item", false, new String[]{"<quantity>", String.valueOf(i)}, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<price>", EconomyManager.format(price)}));
+                            String format = EconomyManager.format(price);
+                            itemMeta1.setDisplayName(instance.getFormat("shop-quantity-item", false, new String[]{"<quantity>", String.valueOf(i)}, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<price>", format}));
                             stack.setItemMeta(itemMeta1);
                             stack.setAmount(i);
                             final int iFinal = i;
@@ -105,15 +107,23 @@ public final class ShopVillagerManager {
                                 @Override
                                 protected void onPlayerClick(CPlayer player, ClickAction action) throws EmptyHandlerException {
                                     quantityInterface.close(player);
-                                    shopInterface.open(player);
-                                    try {
-                                        performTransaction(itemFor, iFinal, player, storeAction);
-                                    } catch (TransactionException e) {
-                                        player.sendMessage(instance.getFormat("error", new String[]{"<error>", e.getMessage()}));
-                                        player.playSoundForPlayer(Sound.NOTE_BASS);
-                                    }
+                                    Confirmer.confirm("Are you sure you want to " + storeAction.name().toLowerCase() + " " + iFinal + " for " + format, player, (result, p) -> {
+                                        shopInterface.open(player);
+                                        if (result) {
+                                            try {
+                                                performTransaction(itemFor, iFinal, player, storeAction);
+                                            } catch (TransactionException e) {
+                                                player.sendMessage(instance.getFormat("error", new String[]{"<error>", e.getMessage()}));
+                                                player.playSoundForPlayer(Sound.NOTE_BASS);
+                                            }
+                                        }
+                                        else {
+                                            player.sendMessage(instance.getFormat("error", new String[]{"<error>", "Transaction aborted."}));
+                                            player.playSoundForPlayer(Sound.NOTE_BASS);
+                                        }
+                                    });
                                 }
-                            });
+                            }, x);
                         }
                         ItemStack backButtonStack = new ItemStack(Material.WOOL);
                         //noinspection deprecation
@@ -127,7 +137,7 @@ public final class ShopVillagerManager {
                                 quantityInterface.close(player);
                                 shopInterface.open(player);
                             }
-                        });
+                        }, 0);
                         quantityInterface.updateInventory();
                         quantityInterface.open(player);
                     }
@@ -189,7 +199,7 @@ public final class ShopVillagerManager {
                 quantityRemain -= item.getAmount();
             }
         }
-        player.sendMessage(instance.getFormat("shop-made-transaction", new String[]{"<action>", storeAction.name().toLowerCase()}, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<quantity>", String.valueOf(quantity)}, new String[]{"<price>", EconomyManager.format(price)}));
-        player.playSoundForPlayer(Sound.ORB_PICKUP);
+        player.sendMessage(instance.getFormat("shop-made-transaction", new String[]{"<action>", storeAction == StoreAction.BUY ? "bought" : "sold"}, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<quantity>", String.valueOf(quantity)}, new String[]{"<price>", EconomyManager.format(price)}));
+        player.playSoundForPlayer(Sound.LEVEL_UP);
     }
 }
