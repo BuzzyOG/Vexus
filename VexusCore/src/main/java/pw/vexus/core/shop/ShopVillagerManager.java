@@ -9,11 +9,11 @@ import net.cogzmc.core.gui.InventoryButton;
 import net.cogzmc.core.gui.InventoryGraphicalInterface;
 import net.cogzmc.core.modular.command.EmptyHandlerException;
 import net.cogzmc.core.player.CPlayer;
+import net.cogzmc.core.player.DatabaseConnectException;
 import net.cogzmc.core.util.Point;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import pw.vexus.core.VexusCore;
 import pw.vexus.core.econ.EconomyManager;
@@ -61,12 +61,14 @@ public final class ShopVillagerManager {
             villager.spawn();
         }
 
+        //Anonymous classception
         InventoryGraphicalInterface getInterfaceFor() {
-            if (soldItems.length > 54) throw new IllegalStateException("This is unsupported at this time!");
-            InventoryGraphicalInterface anInterface = new InventoryGraphicalInterface(54, title);
+            //level one, the inventory interface for the actual shop
+            if (soldItems.length > 54) throw new UnsupportedOperationException();
+            InventoryGraphicalInterface shopInterface = new InventoryGraphicalInterface(54, title);
             VexusCore instance = VexusCore.getInstance();
             ShopManager shopManager = instance.getShopManager();
-            for (SellableItem soldItem : soldItems) {
+            for (SellableItem soldItem : soldItems) { //one item for each of the items sold
                 ShopItem itemFor = shopManager.getItemFor(soldItem);
                 ItemStack itemStack = new ItemStack(soldItem.getMaterial());
                 itemStack.setDurability(soldItem.getDataValue());
@@ -81,29 +83,113 @@ public final class ShopVillagerManager {
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 itemMeta.setLore(lore);
                 itemStack.setItemMeta(itemMeta);
-                anInterface.addButton(new InventoryButton(itemStack) {
+                shopInterface.addButton(new InventoryButton(itemStack) { //level 2, once you click we create another interface
                     @Override
                     protected void onPlayerClick(CPlayer player, ClickAction action) throws EmptyHandlerException {
                         StoreAction storeAction = action == ClickAction.RIGHT_CLICK ? StoreAction.BUY : StoreAction.SELL;
-                        anInterface.close(player);
-                        InventoryGraphicalInterface quantityInterface = new InventoryGraphicalInterface(9, instance.getFormat("shop-quantity-select", false, new String[]{"<item>", itemFor.getHumanName()}));
-                        for (int x = 0; x < 9;  x++) {
+                        shopInterface.close(player);
+                        int size = 9;
+                        //interface 2
+                        InventoryGraphicalInterface quantityInterface = new InventoryGraphicalInterface(size, instance.getFormat("shop-quantity-select", false, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<action>", storeAction.name().toLowerCase()}));
+                        for (int x = 0; x < size-1; x++) { //for each of the powers of 2 up to 8
                             int i = ((int) Math.pow(2, x));
                             ItemStack stack = new ItemStack(itemFor.getItem(), i);
                             stack.setDurability((short) itemFor.getDataValue());
                             ItemMeta itemMeta1 = stack.getItemMeta();
-                            itemMeta1.setLore(Arrays.asList());
-                            //TODO complete this
+                            double price = (storeAction == StoreAction.BUY ? itemFor.getBuy() : itemFor.getSell()) * i;
+                            itemMeta1.setDisplayName(instance.getFormat("shop-quantity-item", false, new String[]{"<quantity>", String.valueOf(i)}, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<price>", EconomyManager.format(price)}));
+                            stack.setItemMeta(itemMeta1);
+                            stack.setAmount(i);
+                            final int iFinal = i;
+                            quantityInterface.addButton(new InventoryButton(stack) {
+                                @Override
+                                protected void onPlayerClick(CPlayer player, ClickAction action) throws EmptyHandlerException {
+                                    quantityInterface.close(player);
+                                    shopInterface.open(player);
+                                    try {
+                                        performTransaction(itemFor, iFinal, player, storeAction);
+                                    } catch (TransactionException e) {
+                                        player.sendMessage(instance.getFormat("error", new String[]{"<error>", e.getMessage()}));
+                                        player.playSoundForPlayer(Sound.NOTE_BASS);
+                                    }
+                                }
+                            });
                         }
+                        ItemStack backButtonStack = new ItemStack(Material.WOOL);
+                        //noinspection deprecation
+                        backButtonStack.setDurability(DyeColor.RED.getWoolData());
+                        ItemMeta itemMeta1 = backButtonStack.getItemMeta();
+                        itemMeta1.setDisplayName(instance.getFormat("shop-back-button", false));
+                        backButtonStack.setItemMeta(itemMeta1);
+                        quantityInterface.addButton(new InventoryButton(backButtonStack) {
+                            @Override
+                            protected void onPlayerClick(CPlayer player, ClickAction action) throws EmptyHandlerException {
+                                quantityInterface.close(player);
+                                shopInterface.open(player);
+                            }
+                        });
+                        quantityInterface.updateInventory();
+                        quantityInterface.open(player);
                     }
                 });
             }
-            return anInterface;
+            return shopInterface;
         }
     }
 
     private enum StoreAction {
         BUY,
         SELL
+    }
+
+    static class TransactionException extends Exception {
+        public TransactionException(String m) {
+            super(m);
+        }
+    }
+
+    public static void performTransaction(ShopItem itemFor, int quantity, CPlayer player, StoreAction storeAction) throws TransactionException {
+        double price = (storeAction == StoreAction.BUY ? itemFor.getBuy() : itemFor.getSell()) * quantity;
+        VexusCore instance = VexusCore.getInstance();
+        PlayerInventory inventory = player.getBukkitPlayer().getInventory();
+        if (storeAction == StoreAction.BUY) {
+            EconomyManager economyManager = instance.getEconomyManager();
+            if (economyManager.getBalance(player) < price) throw new TransactionException("You do not have enough funds to purchase this!");
+            try {
+                economyManager.modifyBalance(player, -price);
+            } catch (DatabaseConnectException e) {
+                e.printStackTrace();
+                throw new TransactionException("Unable to modify your balance in the database");
+            }
+            ItemStack itemStack = new ItemStack(itemFor.getItem());
+            itemStack.setDurability((short) itemFor.getDataValue());
+            itemStack.setAmount(quantity);
+            inventory.addItem(itemStack);
+        } else {
+            int count = 0;
+            for (int i = 0; i < 36; i++) {
+                ItemStack item = inventory.getItem(i);
+                if (item.getType() == itemFor.getItem() && item.getDurability() == itemFor.getDataValue()) count += item.getAmount();
+            }
+            if (count < quantity) throw new TransactionException("You don't have enough in your inventory to sell!");
+            try {
+                instance.getEconomyManager().modifyBalance(player, price);
+            } catch (DatabaseConnectException e) {
+                e.printStackTrace();
+                throw new TransactionException("Failed to add funds to your balance!");
+            }
+            for (int i = 0, quantityRemain = quantity; i < 36 && quantityRemain > 0; i++) {
+                ItemStack item = inventory.getItem(i);
+                if (!(item.getType() == itemFor.getItem() && item.getDurability() == itemFor.getDataValue())) return;
+                if (item.getAmount() > quantityRemain) {
+                    item.setAmount(item.getAmount()-quantityRemain);
+                    inventory.setItem(i, item);
+                }
+                else inventory.setItem(i, null);
+                quantityRemain -= item.getAmount();
+            }
+        }
+        player.sendMessage(instance.getFormat("shop-made-transaction", new String[]{"<action>", storeAction.name().toLowerCase()}, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<quantity>", String.valueOf(quantity)}, new String[]{"<price>", EconomyManager.format(price)}));
+        player.playSoundForPlayer(Sound.ORB_PICKUP);
     }
 }
