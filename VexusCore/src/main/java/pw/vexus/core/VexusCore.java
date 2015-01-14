@@ -27,10 +27,7 @@ import pw.vexus.core.pvp.EngageEnderBar;
 import pw.vexus.core.pvp.FoodCorrection;
 import pw.vexus.core.pvp.PvPListener;
 import pw.vexus.core.pvp.PvPTagManager;
-import pw.vexus.core.shop.BuyCommand;
-import pw.vexus.core.shop.SellCommand;
-import pw.vexus.core.shop.ShopManager;
-import pw.vexus.core.shop.ShopVillagerManager;
+import pw.vexus.core.shop.*;
 import pw.vexus.core.specials.EnderBarManager;
 import pw.vexus.core.specials.FactionsFeature;
 import pw.vexus.core.warp.DelWarpCommand;
@@ -134,6 +131,7 @@ public final class VexusCore extends ModularPlugin {
 
         registerCommand(new BuyCommand());
         registerCommand(new SellCommand());
+        registerCommand(new ShopCommand());
 
         registerListener(new ChatListener());
         registerListener(new MessageModifier());

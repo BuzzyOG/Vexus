@@ -147,7 +147,7 @@ public final class ShopVillagerManager {
         }
     }
 
-    private enum StoreAction {
+    public enum StoreAction {
         BUY,
         SELL
     }
@@ -172,7 +172,7 @@ public final class ShopVillagerManager {
                 throw new TransactionException("Unable to modify your balance in the database");
             }
             ItemStack itemStack = new ItemStack(itemFor.getItem());
-            itemStack.setDurability((short) itemFor.getDataValue());
+            itemStack.setDurability(itemFor.getDataValue());
             itemStack.setAmount(quantity);
             inventory.addItem(itemStack);
         } else {

@@ -20,9 +20,9 @@ public final class ShopManager {
                 String[] split = s.split(";");
                 String[] idParts = split[0].split(":");
                 int id = Integer.parseInt(idParts[0]);
-                int dataValue = idParts.length > 1 ? Integer.parseInt(idParts[1]) : 0;
+                short dataValue = idParts.length > 1 ? Short.parseShort(idParts[1]) : 0;
                 Material material = Material.getMaterial(id);
-                items.put(new SellableItem(material, (byte)dataValue), new ShopItem(material, dataValue, split[1], Double.valueOf(split[2]), Double.valueOf(split[3])));
+                items.put(new SellableItem(material, dataValue), new ShopItem(material, dataValue, split[1], Double.valueOf(split[2]), Double.valueOf(split[3])));
             } catch (Throwable t) {
                 VexusCore.getInstance().getLogger().warning("Unable to parse line " + x);
                 t.printStackTrace();
@@ -30,7 +30,7 @@ public final class ShopManager {
         }
     }
 
-    public ShopItem getItemFor(Material m, byte dataValue) {
+    public ShopItem getItemFor(Material m, short dataValue) {
         return getItemFor(new SellableItem(m, dataValue));
     }
 

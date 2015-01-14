@@ -6,5 +6,5 @@ import org.bukkit.Material;
 @Value
 class SellableItem {
     private Material material;
-    private byte dataValue;
+    private short dataValue;
 }

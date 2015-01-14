@@ -5,7 +5,7 @@ import org.bukkit.Material;
 
 @Value class ShopItem {
     private Material item;
-    private int dataValue;
+    private short dataValue;
     private String humanName;
     private double sell, buy;
 }
