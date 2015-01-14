@@ -104,6 +104,6 @@ public final class ShopVillagerManager {
 
     private enum StoreAction {
         BUY,
-        SELL;
+        SELL
     }
 }
