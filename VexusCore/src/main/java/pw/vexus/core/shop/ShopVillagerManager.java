@@ -33,12 +33,17 @@ public final class ShopVillagerManager {
 
     public ShopVillagerManager(File locationFile) throws IOException {
         this.locationFile = locationFile;
-        villagerData.addAll(Arrays.asList(VexusCore.getGSON().fromJson(new FileReader(locationFile), ShopVillagerData[].class)));
+        if (!locationFile.exists() && !locationFile.createNewFile()) throw new IOException("Cannot create file!");
+        ShopVillagerData[] shopVillagerDatas = VexusCore.getGSON().fromJson(new FileReader(locationFile), ShopVillagerData[].class);
+        if (shopVillagerDatas != null)
+            villagerData.addAll(Arrays.asList(shopVillagerDatas));
         villagerData.stream().forEach(ShopVillagerData::spawn);
     }
 
     public void addVillager(Location location) {
-        villagerData.add(new ShopVillagerData(location, new SellableItem[]{}, "New Shop Villager", "New Shop Villager"));
+        ShopVillagerData shopVillagerData = new ShopVillagerData(location, new SellableItem[]{}, "New Shop Villager", "New Shop Villager");
+        villagerData.add(shopVillagerData);
+        shopVillagerData.spawn();
     }
 
     public void save() throws IOException {
@@ -60,6 +65,7 @@ public final class ShopVillagerManager {
             InventoryGraphicalInterface interfaceFor = getInterfaceFor();
             villager.registerObserver((player, mob, action) -> interfaceFor.open(player));
             villager.spawn();
+            VexusCore.getInstance().logMessage("&aVillager spawned");
         }
 
         //Anonymous classception
@@ -79,29 +85,28 @@ public final class ShopVillagerManager {
                 lore.add(instance.getFormat("shop-buy-price", false, new String[]{"<price>", EconomyManager.format(itemFor.getBuy())}));
                 lore.add(instance.getFormat("shop-sell-price", false, new String[]{"<price>", EconomyManager.format(itemFor.getSell())}));
                 lore.add("");
-                lore.add(instance.getFormat("shop-right-buy", false));
-                lore.add(instance.getFormat("shop-left-sell", false));
+                lore.add(instance.getFormat("shop-left-buy", false));
+                lore.add(instance.getFormat("shop-right-sell", false));
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 itemMeta.setLore(lore);
                 itemStack.setItemMeta(itemMeta);
                 shopInterface.addButton(new InventoryButton(itemStack) { //level 2, once you click we create another interface
                     @Override
                     protected void onPlayerClick(CPlayer player, ClickAction action) throws EmptyHandlerException {
-                        StoreAction storeAction = action == ClickAction.RIGHT_CLICK ? StoreAction.BUY : StoreAction.SELL;
+                        StoreAction storeAction = action == ClickAction.LEFT_CLICK ? StoreAction.BUY : StoreAction.SELL;
                         shopInterface.close(player);
                         int size = 9;
                         //interface 2
                         InventoryGraphicalInterface quantityInterface = new InventoryGraphicalInterface(size, instance.getFormat("shop-quantity-select", false, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<action>", storeAction.name().toLowerCase()}));
                         for (int x = 1; x < size; x++) { //for each of the powers of 2 up to 8
-                            int i = ((int) Math.pow(2, x));
-                            ItemStack stack = new ItemStack(itemFor.getItem(), i);
-                            stack.setDurability((short) itemFor.getDataValue());
+                            int i = ((int) Math.pow(2, x-1));
+                            ItemStack stack = new ItemStack(itemFor.getItem(), i > 64 ? 1 : i);
+                            stack.setDurability(itemFor.getDataValue());
                             ItemMeta itemMeta1 = stack.getItemMeta();
                             double price = (storeAction == StoreAction.BUY ? itemFor.getBuy() : itemFor.getSell()) * i;
                             String format = EconomyManager.format(price);
                             itemMeta1.setDisplayName(instance.getFormat("shop-quantity-item", false, new String[]{"<quantity>", String.valueOf(i)}, new String[]{"<item>", itemFor.getHumanName()}, new String[]{"<price>", format}));
                             stack.setItemMeta(itemMeta1);
-                            stack.setAmount(i);
                             final int iFinal = i;
                             quantityInterface.addButton(new InventoryButton(stack) {
                                 @Override
@@ -143,6 +148,7 @@ public final class ShopVillagerManager {
                     }
                 });
             }
+            shopInterface.updateInventory();
             return shopInterface;
         }
     }
@@ -179,6 +185,7 @@ public final class ShopVillagerManager {
             int count = 0;
             for (int i = 0; i < 36; i++) {
                 ItemStack item = inventory.getItem(i);
+                if (item == null) continue;
                 if (item.getType() == itemFor.getItem() && item.getDurability() == itemFor.getDataValue()) count += item.getAmount();
             }
             if (count < quantity) throw new TransactionException("You don't have enough in your inventory to sell!");
@@ -190,7 +197,8 @@ public final class ShopVillagerManager {
             }
             for (int i = 0, quantityRemain = quantity; i < 36 && quantityRemain > 0; i++) {
                 ItemStack item = inventory.getItem(i);
-                if (!(item.getType() == itemFor.getItem() && item.getDurability() == itemFor.getDataValue())) return;
+                if (item == null) continue;
+                if (!(item.getType() == itemFor.getItem() && item.getDurability() == itemFor.getDataValue())) continue;
                 if (item.getAmount() > quantityRemain) {
                     item.setAmount(item.getAmount()-quantityRemain);
                     inventory.setItem(i, item);

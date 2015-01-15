@@ -41,7 +41,7 @@ abstract class AbstractShopCommand extends VexusCommand {
             try {
                 ShopVillagerManager.performTransaction(itemFor, quantity, player, action);
             } catch (ShopVillagerManager.TransactionException e) {
-                e.printStackTrace();
+                handleCommandException(new CommandException(e.getMessage()), args, player.getBukkitPlayer());
             }
         });
 

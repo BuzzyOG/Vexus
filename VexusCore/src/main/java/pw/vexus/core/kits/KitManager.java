@@ -44,8 +44,8 @@ public final class KitManager {
         private List<RawKitEnchant> enchants;
 
         @Data @Setter(AccessLevel.NONE) final class RawKitEnchant {
-            private String enchant;
-            private Integer level = 1;
+            private Enchantment enchant;
+            private Integer level;
         }
 
         ItemStack getStack() {
@@ -57,8 +57,10 @@ public final class KitManager {
             if (lore != null) itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
             if (enchants != null) {
-                for (RawKitEnchant enchant : enchants)
-                    itemStack.addUnsafeEnchantment(Enchantment.getByName(enchant.getEnchant()), enchant.getLevel());
+                for (RawKitEnchant enchant : enchants) {
+                    if (enchant.enchant == null) continue;
+                    itemStack.addUnsafeEnchantment(enchant.getEnchant(), enchant.getLevel() == null ? 1 : enchant.getLevel());
+                }
             }
             return itemStack;
         }

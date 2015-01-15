@@ -58,7 +58,7 @@ public final class KitCommand extends VexusCommand {
         if (args.length > 1) return super.handleTabComplete(sender, command, alias, args);
         Player player = (Player) sender;
         CPlayer onlinePlayer = Core.getOnlinePlayer(player);
-        return VexusCore.getInstance().getKitManager().getKits().stream().filter((kit) -> kit.hasPermission(onlinePlayer)).map(Kit::getName).collect(Collectors.toList());
+        return VexusCore.getInstance().getKitManager().getKits().stream().filter((kit) -> kit.hasPermission(onlinePlayer) && kit.getName().toLowerCase().startsWith(args[0].toLowerCase())).map(Kit::getName).collect(Collectors.toList());
     }
 
     private static InventoryGraphicalInterface getInterfaceFor(CPlayer player) {

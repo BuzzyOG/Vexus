@@ -8,6 +8,7 @@ import net.cogzmc.core.modular.ModularPlugin;
 import net.cogzmc.core.modular.ModuleMeta;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.enchantments.Enchantment;
 import pw.vexus.core.announcer.AnnouncerManager;
 import pw.vexus.core.announcer.cmd.AnnouncerCommand;
 import pw.vexus.core.chat.ChatFeaturesListener;
@@ -72,7 +73,8 @@ public final class VexusCore extends ModularPlugin {
                 asJsonObject.get(YAW_KEY).getAsFloat(),
                 asJsonObject.get(PITCH_KEY).getAsFloat()
         );
-    }).create();
+    }).registerTypeAdapter(Enchantment.class, (JsonDeserializer<Enchantment>) (jsonElement, type, context) -> Enchantment.getByName(jsonElement.getAsString()))
+            .create();
 
     @Override
     protected void onModuleEnable() throws Exception {
